@@ -17,5 +17,8 @@ source "arch/arm/mach-msm/htc/ville/Kconfig"
 # M7
 source "arch/arm/mach-msm/htc/m7/Kconfig"
 
+# VALENTE_WX
+source "arch/arm/mach-msm/htc/valente_wx/Kconfig"
+
 config MACH_HTC_DUMMY
 	bool "NONE (No device)"
