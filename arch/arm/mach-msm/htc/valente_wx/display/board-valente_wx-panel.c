@@ -68,6 +68,7 @@ static struct resource msm_fb_resources[] = {
 };
 
 static struct msm_fb_platform_data msm_fb_pdata = {
+  //.detect_client = msm_fb_detect_panel,
 };
 
 static struct platform_device msm_fb_device = {
@@ -299,7 +300,7 @@ static int mipi_dsi_panel_power(int on)
 	static bool bPanelPowerOn = false;
 	int rc;
 
-	char *lcm_str = "8921_l11";
+	char *lcm_str = "8921_l8";
 	char *lcmio_str = "8921_lvs5";
 	char *dsivdd_str = "8921_l2";
         
@@ -336,7 +337,7 @@ static int mipi_dsi_panel_power(int on)
 			return -ENODEV;
 		}
 
-		rc = regulator_set_voltage(v_lcm, 3000000, 3000000);
+		rc = regulator_set_voltage(v_lcm, 2800000, 2800000);
 		if (rc) {
 			printk(KERN_ERR "%s#%d: set_voltage %s failed, rc=%d\n", __func__, __LINE__, lcm_str, rc);
 			return -EINVAL;
