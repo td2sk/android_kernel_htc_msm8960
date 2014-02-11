@@ -416,8 +416,8 @@ static struct msm_camera_sensor_flash_src msm_flash_src = {
 8921_lvs6 == V_CAMIO_1V8
 GPIO#4 == CAM2_MCLK
 GPIO#93 == V_CAM_D1V8
-8921_l8 == V_CAM_A2V8
-8921_l9 == V_CAM_VCM2V8
+8921_l9 == V_CAM_A2V8
+8921_l17 == V_CAM_VCM2V8
 */
 #ifdef CONFIG_RAWCHIP
 static int valente_wx_use_ext_1v2(void)
@@ -426,8 +426,8 @@ static int valente_wx_use_ext_1v2(void)
 }
 
 static struct regulator *reg_8921_l2;
-static struct regulator *reg_8921_l8;
 static struct regulator *reg_8921_l9;
+static struct regulator *reg_8921_l17;
 static struct regulator *reg_8921_lvs6;
 
 static int valente_wx_rawchip_vreg_on(void)
@@ -436,9 +436,9 @@ static int valente_wx_rawchip_vreg_on(void)
 	pr_info("[CAM] %s\n", __func__);
 
 	/* VCM */
-	rc = camera_sensor_power_enable("8921_l9", 2800000, &reg_8921_l9); // Mu Lee for sequence with raw chip 20120116
+	rc = camera_sensor_power_enable("8921_l17", 2800000, &reg_8921_l17); // Mu Lee for sequence with raw chip 20120116
 	if (rc < 0) {
-		pr_err("[CAM] rawchip_power_enable(\"8921_l9\", 2.8V) FAILED %d\n", rc);
+		pr_err("[CAM] rawchip_power_enable(\"8921_l17\", 2.8V) FAILED %d\n", rc);
 		goto enable_VCM_fail;
 	}
 
@@ -462,9 +462,9 @@ static int valente_wx_rawchip_vreg_on(void)
 
 	/* analog */
 	/* Mu Lee for sequence with raw chip 20120116 */
-	rc = camera_sensor_power_enable("8921_l8", 2800000, &reg_8921_l8);
+	rc = camera_sensor_power_enable("8921_l9", 2800000, &reg_8921_l9);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_enable(\"8921_l8\", 2.8V) FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_enable(\"8921_l9\", 2.8V) FAILED %d\n", rc);
 		goto enable_analog_fail;
 	}
 
@@ -482,7 +482,7 @@ static int valente_wx_rawchip_vreg_on(void)
 
 #if 0
 lcmio_hi_fail:
-	camera_sensor_power_disable(reg_8921_l8);
+	camera_sensor_power_disable(reg_8921_l9);
 #endif
 enable_analog_fail:
 	gpio_request(VALENTE_WX_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
@@ -491,7 +491,7 @@ enable_analog_fail:
 enable_1v2_fail:
 	camera_sensor_power_disable(reg_8921_lvs6);
 enable_1v8_fail:
-	camera_sensor_power_disable(reg_8921_l9);
+	camera_sensor_power_disable(reg_8921_l17);
 enable_VCM_fail:
 	return rc;
 }
@@ -503,9 +503,9 @@ static int valente_wx_rawchip_vreg_off(void)
 	pr_info("[CAM] %s\n", __func__);
 
 	/* Mu Lee for sequence with raw chip 20120116 */
-	rc = camera_sensor_power_disable(reg_8921_l8);
+	rc = camera_sensor_power_disable(reg_8921_l9);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_disable(\"8921_l8\") FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_disable(\"8921_l9\") FAILED %d\n", rc);
 		goto valente_wx_rawchip_vreg_off_fail;
 	}
 
@@ -537,9 +537,9 @@ static int valente_wx_rawchip_vreg_off(void)
 
 	/* VCM */
 	/* Mu Lee for sequenc with raw chip 20120116 */
-	rc = camera_sensor_power_disable(reg_8921_l9);
+	rc = camera_sensor_power_disable(reg_8921_l17);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_disable(\"8921_l9\") FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_disable(\"8921_l17\") FAILED %d\n", rc);
 		goto valente_wx_rawchip_vreg_off_fail;
 	}
 
@@ -662,9 +662,9 @@ static int valente_wx_s5k3h2yx_vreg_on(void)
 
 #if 0
 	/* VCM */
-	rc = camera_sensor_power_enable("8921_l9", 2800000, &reg_8921_l9);
+	rc = camera_sensor_power_enable("8921_l17", 2800000, &reg_8921_l17);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_enable(\"8921_l9\", 2.85V) FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_enable(\"8921_l17\", 2.85V) FAILED %d\n", rc);
 		goto enable_vcm_fail;
 	}
 
@@ -677,9 +677,9 @@ static int valente_wx_s5k3h2yx_vreg_on(void)
 	}
 
 	/* analog */
-	rc = camera_sensor_power_enable("8921_l8", 2800000, &reg_8921_l8);
+	rc = camera_sensor_power_enable("8921_l9", 2800000, &reg_8921_l9);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_enable(\"8921_l8\", 2.8V) FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_enable(\"8921_l9\", 2.8V) FAILED %d\n", rc);
 		goto enable_analog_fail;
 	}
 
@@ -705,11 +705,11 @@ static int valente_wx_s5k3h2yx_vreg_on(void)
 	return rc;
 
 enable_digital_fail:
-	camera_sensor_power_disable(reg_8921_l8);
+	camera_sensor_power_disable(reg_8921_l9);
 enable_analog_fail:
 	camera_sensor_power_disable(reg_8921_lvs6);
 enable_io_fail:
-	camera_sensor_power_disable(reg_8921_l9);
+	camera_sensor_power_disable(reg_8921_l17);
 enable_vcm_fail:
 #endif
 	return rc;
@@ -722,17 +722,17 @@ static int valente_wx_s5k3h2yx_vreg_off(void)
 	pr_info("[CAM] %s\n", __func__);
 #if 0
 	/* analog */
-	rc = camera_sensor_power_disable(reg_8921_l8);
+	rc = camera_sensor_power_disable(reg_8921_l9);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_disable(\"8921_l8\") FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_disable(\"8921_l9\") FAILED %d\n", rc);
 		goto valente_wx_s5k3h2yx_vreg_off_fail;
 	}
 
 	udelay(50);
 	/* VCM */
-	rc = camera_sensor_power_disable(reg_8921_l9);
+	rc = camera_sensor_power_disable(reg_8921_l17);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_disable(\"8921_l9\") FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_disable(\"8921_l17\") FAILED %d\n", rc);
 		goto valente_wx_s5k3h2yx_vreg_off_fail;
 	}
 
@@ -985,9 +985,9 @@ static int valente_wx_mt9v113_vreg_on(void)
 	pr_info("[CAM] %s\n", __func__);
 	/* VCM */
 	/* Mu Lee for sequence with raw chip 20120116 */
-	rc = camera_sensor_power_enable("8921_l9", 2800000, &reg_8921_l9);
+	rc = camera_sensor_power_enable("8921_l17", 2800000, &reg_8921_l17);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_enable(\"8921_l9\", 2.8V) FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_enable(\"8921_l17\", 2.8V) FAILED %d\n", rc);
 		goto init_fail;
 	}
 
@@ -1002,8 +1002,8 @@ static int valente_wx_mt9v113_vreg_on(void)
 	udelay(50);
 
 	/* analog */
-	rc = camera_sensor_power_enable("8921_l8", 2800000, &reg_8921_l8);
-	pr_info("[CAM] sensor_power_enable(\"8921_l8\", 2.8V) == %d\n", rc);
+	rc = camera_sensor_power_enable("8921_l9", 2800000, &reg_8921_l9);
+	pr_info("[CAM] sensor_power_enable(\"8921_l9\", 2.8V) == %d\n", rc);
 	if (rc < 0)
 		goto init_fail;
 
@@ -1076,8 +1076,8 @@ static int valente_wx_mt9v113_vreg_off(void)
 #endif
 
 	/* analog */
-	rc = camera_sensor_power_disable(reg_8921_l8);
-	pr_info("[CAM] camera_sensor_power_disable(\"8921_l8\", 2.8V) == %d\n", rc);
+	rc = camera_sensor_power_disable(reg_8921_l9);
+	pr_info("[CAM] camera_sensor_power_disable(\"8921_l9\", 2.8V) == %d\n", rc);
 	if (rc < 0)
 		goto init_fail;
 
@@ -1092,9 +1092,9 @@ static int valente_wx_mt9v113_vreg_off(void)
 	udelay(50);
 
 	/* VCM */
-	rc = camera_sensor_power_disable(reg_8921_l9);
+	rc = camera_sensor_power_disable(reg_8921_l17);
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_disable(\"8921_l9\") FAILED %d\n", rc);
+		pr_err("[CAM] sensor_power_disable(\"8921_l17\") FAILED %d\n", rc);
 		goto init_fail;
 	}
 
