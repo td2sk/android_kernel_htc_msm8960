@@ -4,10 +4,10 @@
 #include <linux/pwm.h>
 #include <linux/mfd/pm8xxx/pm8921.h>
 
-int mipi_ville_device_register(struct msm_panel_info *pinfo,
+int mipi_valente_wx_device_register(struct msm_panel_info *pinfo,
                                  u32 channel, u32 panel);
 
-#define VILLE_USE_CMDLISTS 1
+#define VALENTE_WX_USE_CMDLISTS 1
 
 #define PWM_MIN                   30
 #define PWM_DEFAULT               142

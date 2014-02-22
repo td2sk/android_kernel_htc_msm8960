@@ -313,7 +313,7 @@ static struct mmc_platform_data msm8960_sdc4_data = {
 };
 #endif
 
-void __init ville_init_mmc(void)
+void __init valente_wx_init_mmc(void)
 {
 #ifdef CONFIG_MMC_MSM_SDC1_SUPPORT
 	

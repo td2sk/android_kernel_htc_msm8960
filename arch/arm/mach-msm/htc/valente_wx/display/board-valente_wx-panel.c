@@ -26,7 +26,7 @@
 #endif
 
 #include "../devices.h"
-#include "../board-ville.h"
+#include "../board-valente_wx.h"
 #if defined (CONFIG_FB_MSM_MDP_ABL)
 #include <linux/fb.h>
 #endif
@@ -175,7 +175,7 @@ static struct msm_bus_scale_pdata mdp_bus_scale_pdata = {
 #endif /* CONFIG_MSM_BUS_SCALING */
 
 static struct msm_panel_common_pdata mdp_pdata = {
-	.gpio = VILLE_GPIO_LCD_TE,
+	.gpio = VALENTE_WX_GPIO_LCD_TE,
 	.mdp_max_clk = 200000000,
 	.mdp_max_bw = 2000000000,
 	.mdp_bw_ab_factor = 115,
@@ -230,7 +230,7 @@ static struct resource hdmi_msm_resources[] = {
 };
 
 #ifdef CONFIG_FB_MSM_HDMI_MHL
-static mhl_driving_params ville_driving_params[] = {
+static mhl_driving_params valente_wx_driving_params[] = {
 	{.format = HDMI_VFRMT_640x480p60_4_3,	.reg_a3=0xEC, .reg_a6=0x0C},
 	{.format = HDMI_VFRMT_720x480p60_16_9,	.reg_a3=0xEC, .reg_a6=0x0C},
 	{.format = HDMI_VFRMT_1280x720p60_16_9,	.reg_a3=0xEC, .reg_a6=0x0C},
@@ -253,8 +253,8 @@ static struct msm_hdmi_platform_data hdmi_msm_data = {
 //	.panel_power = hdmi_panel_power,
 	.gpio_config = hdmi_gpio_config,
 #ifdef CONFIG_FB_MSM_HDMI_MHL
-	.driving_params =  ville_driving_params,
-	.driving_params_count = ARRAY_SIZE(ville_driving_params),
+	.driving_params =  valente_wx_driving_params,
+	.driving_params_count = ARRAY_SIZE(valente_wx_driving_params),
 #endif
 };
 
@@ -348,9 +348,9 @@ static int mipi_dsi_panel_power(int on)
 			return -EINVAL;
 		}
 
-		rc = gpio_request(VILLE_GPIO_LCD_RSTz, "LCM_RST_N");
+		rc = gpio_request(VALENTE_WX_GPIO_LCD_RSTz, "LCM_RST_N");
 		if (rc) {
-			printk(KERN_ERR "%s:LCM gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_LCD_RSTz, rc);
+			printk(KERN_ERR "%s:LCM gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_LCD_RSTz, rc);
 			return -EINVAL;
 		}
 
@@ -391,11 +391,11 @@ static int mipi_dsi_panel_power(int on)
 
 		if (!mipi_lcd_on) {
 			usleep(10);
-			gpio_set_value(VILLE_GPIO_LCD_RSTz, 1);
+			gpio_set_value(VALENTE_WX_GPIO_LCD_RSTz, 1);
 			usleep(1);
-			gpio_set_value(VILLE_GPIO_LCD_RSTz, 0);
+			gpio_set_value(VALENTE_WX_GPIO_LCD_RSTz, 0);
 			usleep(35);
-			gpio_set_value(VILLE_GPIO_LCD_RSTz, 1);
+			gpio_set_value(VALENTE_WX_GPIO_LCD_RSTz, 1);
 		}
 		usleep(60);
 
@@ -404,7 +404,7 @@ static int mipi_dsi_panel_power(int on)
 		printk(KERN_INFO "%s: off\n", __func__);
 		if (!bPanelPowerOn) return 0;
 		hr_msleep(100);
-		gpio_set_value(VILLE_GPIO_LCD_RSTz, 0);
+		gpio_set_value(VALENTE_WX_GPIO_LCD_RSTz, 0);
 		hr_msleep(10);
 
 		if (regulator_disable(v_dsivdd)) {
@@ -439,13 +439,13 @@ static char mipi_dsi_splash_is_enabled(void)
 }
 
 static struct mipi_dsi_platform_data mipi_dsi_pdata = {
-	.vsync_gpio = VILLE_GPIO_LCD_TE,
+	.vsync_gpio = VALENTE_WX_GPIO_LCD_TE,
 	.dsi_power_save = mipi_dsi_panel_power,
 	.splash_is_enabled = mipi_dsi_splash_is_enabled,
 };
 
-static struct platform_device mipi_dsi_ville_panel_device = {
-	.name = "mipi_ville",
+static struct platform_device mipi_dsi_valente_wx_panel_device = {
+	.name = "mipi_valente_wx",
 	.id = 0,
 };
 
@@ -515,17 +515,17 @@ int hdmi_enable_5v(int on)
 		return 0;
 
 	if (on) {
-		rc = gpio_request(VILLE_GPIO_V_BOOST_5V_EN, "HDMI_BOOST_5V");
+		rc = gpio_request(VALENTE_WX_GPIO_V_BOOST_5V_EN, "HDMI_BOOST_5V");
 		if (rc) {
 			pr_err("'%s'(%d) gpio_request failed, rc=%d\n",
-				"HDMI_BOOST_5V", VILLE_GPIO_V_BOOST_5V_EN, rc);
+				"HDMI_BOOST_5V", VALENTE_WX_GPIO_V_BOOST_5V_EN, rc);
 			goto error;
 		}
-		gpio_set_value(VILLE_GPIO_V_BOOST_5V_EN, 1);
+		gpio_set_value(VALENTE_WX_GPIO_V_BOOST_5V_EN, 1);
 		pr_info("%s(on): success\n", __func__);
 	} else {
-		gpio_set_value(VILLE_GPIO_V_BOOST_5V_EN, 0);
-		gpio_free(VILLE_GPIO_V_BOOST_5V_EN);
+		gpio_set_value(VALENTE_WX_GPIO_V_BOOST_5V_EN, 0);
+		gpio_free(VALENTE_WX_GPIO_V_BOOST_5V_EN);
 		pr_info("%s(off): success\n", __func__);
 	}
 
@@ -599,29 +599,29 @@ static int hdmi_gpio_config(int on)
 		return 0;
 
 	if (on) {
-		rc = gpio_request(VILLE_GPIO_HDMI_DDC_CLK, "HDMI_DDC_CLK");
+		rc = gpio_request(VALENTE_WX_GPIO_HDMI_DDC_CLK, "HDMI_DDC_CLK");
 		if (rc) {
 			pr_err("'%s'(%d) gpio_request failed, rc=%d\n",
-					"HDMI_DDC_CLK", VILLE_GPIO_HDMI_DDC_CLK, rc);
+					"HDMI_DDC_CLK", VALENTE_WX_GPIO_HDMI_DDC_CLK, rc);
 			return rc;
 		}
-		rc = gpio_request(VILLE_GPIO_HDMI_DDC_DATA, "HDMI_DDC_DATA");
+		rc = gpio_request(VALENTE_WX_GPIO_HDMI_DDC_DATA, "HDMI_DDC_DATA");
 		if (rc) {
 			pr_err("'%s'(%d) gpio_request failed, rc=%d\n",
-					"HDMI_DDC_DATA", VILLE_GPIO_HDMI_DDC_DATA, rc);
+					"HDMI_DDC_DATA", VALENTE_WX_GPIO_HDMI_DDC_DATA, rc);
 			goto error1;
 		}
-		rc = gpio_request(VILLE_GPIO_HDMI_HPD, "HDMI_HPD");
+		rc = gpio_request(VALENTE_WX_GPIO_HDMI_HPD, "HDMI_HPD");
 		if (rc) {
 			pr_err("'%s'(%d) gpio_request failed, rc=%d\n",
-					"HDMI_HPD", VILLE_GPIO_HDMI_HPD, rc);
+					"HDMI_HPD", VALENTE_WX_GPIO_HDMI_HPD, rc);
 			goto error2;
 		}
 		pr_debug("%s(on): success\n", __func__);
 	} else {
-		gpio_free(VILLE_GPIO_HDMI_DDC_CLK);
-		gpio_free(VILLE_GPIO_HDMI_DDC_DATA);
-		gpio_free(VILLE_GPIO_HDMI_HPD);
+		gpio_free(VALENTE_WX_GPIO_HDMI_DDC_CLK);
+		gpio_free(VALENTE_WX_GPIO_HDMI_DDC_DATA);
+		gpio_free(VALENTE_WX_GPIO_HDMI_HPD);
 		pr_debug("%s(off): success\n", __func__);
 	}
 
@@ -629,9 +629,9 @@ static int hdmi_gpio_config(int on)
 	return 0;
 
 error2:
-	gpio_free(VILLE_GPIO_HDMI_DDC_DATA);
+	gpio_free(VALENTE_WX_GPIO_HDMI_DDC_DATA);
 error1:
-	gpio_free(VILLE_GPIO_HDMI_DDC_CLK);
+	gpio_free(VALENTE_WX_GPIO_HDMI_DDC_CLK);
 	return rc;
 }
 
@@ -658,15 +658,15 @@ static void __init msm8960_set_display_params(char *prim_panel, char *ext_panel)
 	}
 }
 
-void __init ville_init_fb(void)
+void __init valente_wx_init_fb(void)
 {
-	msm8960_set_display_params("mipi_ville", "hdmi_msm");
+	msm8960_set_display_params("mipi_valente_wx", "hdmi_msm");
 	platform_device_register(&msm_fb_device);
 #ifdef CONFIG_FB_MSM_WRITEBACK_MSM_PANEL
 	platform_device_register(&wfd_panel_device);
 	platform_device_register(&wfd_device);
 #endif
-	platform_device_register(&mipi_dsi_ville_panel_device);
+	platform_device_register(&mipi_dsi_valente_wx_panel_device);
 	msm_fb_register_device("mdp", &mdp_pdata);
 	msm_fb_register_device("mipi_dsi", &mipi_dsi_pdata);
 #ifdef CONFIG_FB_MSM_HDMI_MSM_PANEL

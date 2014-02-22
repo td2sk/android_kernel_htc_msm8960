@@ -430,7 +430,7 @@ static const struct snd_kcontrol_new earamp_switch_controls =
 static const struct snd_kcontrol_new spkamp_switch_controls =
 	SOC_DAPM_SINGLE("Switch", 0, 0, 1, 0);
 
-static const struct snd_soc_dapm_widget ville_dapm_widgets[] = {
+static const struct snd_soc_dapm_widget valente_wx_dapm_widgets[] = {
 	SND_SOC_DAPM_MIXER("Lineout Mixer", SND_SOC_NOPM, 0, 0, NULL, 0),
 	SND_SOC_DAPM_MIXER("SPK AMP EN", SND_SOC_NOPM, 0, 0, &spkamp_switch_controls, 1),
 	SND_SOC_DAPM_MIXER("EAR AMP EN", SND_SOC_NOPM, 0, 0, &earamp_switch_controls, 1),
@@ -823,8 +823,8 @@ static int msm_audrx_init(struct snd_soc_pcm_runtime *rtd)
 	snd_soc_dapm_new_controls(dapm, msm_dapm_widgets,
 				ARRAY_SIZE(msm_dapm_widgets));
 
-	snd_soc_dapm_new_controls(dapm, ville_dapm_widgets,
-				ARRAY_SIZE(ville_dapm_widgets));
+	snd_soc_dapm_new_controls(dapm, valente_wx_dapm_widgets,
+				ARRAY_SIZE(valente_wx_dapm_widgets));
 
 	snd_soc_dapm_add_routes(dapm, common_audio_map,
 		ARRAY_SIZE(common_audio_map));
@@ -1596,7 +1596,7 @@ static void msm_free_headset_mic_gpios(void)
 	}
 }
 
-static int __init msm_ville_audio_init(void)
+static int __init msm_valente_wx_audio_init(void)
 {
 	int ret;
 
@@ -1641,7 +1641,7 @@ static int __init msm_ville_audio_init(void)
 	return ret;
 
 }
-module_init(msm_ville_audio_init);
+module_init(msm_valente_wx_audio_init);
 
 static void __exit msm_audio_exit(void)
 {

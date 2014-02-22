@@ -15,7 +15,7 @@
 #include <linux/regulator/msm-gpio-regulator.h>
 #include <mach/rpm-regulator.h>
 
-#include "board-ville.h"
+#include "board-valente_wx.h"
 
 #define VREG_CONSUMERS(_id) \
 	static struct regulator_consumer_supply vreg_consumers_##_id[]
@@ -600,7 +600,7 @@ static struct rpm_regulator_consumer_mapping
 	RPM_REG_MAP(S8,  0, 6, "l2_s8",      "acpuclk-8960"),
 };
 
-struct rpm_regulator_platform_data ville_rpm_regulator_pdata __devinitdata = {
+struct rpm_regulator_platform_data valente_wx_rpm_regulator_pdata __devinitdata = {
 	.init_data		= msm_rpm_regulator_init_data,
 	.num_regulators		= ARRAY_SIZE(msm_rpm_regulator_init_data),
 	.version		= RPM_VREG_VERSION_8960,

@@ -1,17 +1,17 @@
 #include <mach/panel_id.h>
 #include "../../../drivers/video/msm/msm_fb.h"
 #include "../../../drivers/video/msm/mipi_dsi.h"
-#include "mipi_ville.h"
+#include "mipi_valente_wx.h"
 
-static struct mipi_dsi_panel_platform_data *mipi_ville_pdata;
+static struct mipi_dsi_panel_platform_data *mipi_valente_wx_pdata;
 static struct dsi_cmd_desc *display_on_cmds = NULL;
 static struct dsi_cmd_desc *display_off_cmds = NULL;
 static struct dsi_cmd_desc *cmd_on_cmds = NULL;
 static int display_on_cmds_count = 0;
 static int display_off_cmds_count = 0;
 static int cmd_on_cmds_count = 0;
-static int mipi_ville_lcd_init(void);
-static void mipi_ville_set_backlight(struct msm_fb_data_type *mfd);
+static int mipi_valente_wx_lcd_init(void);
+static void mipi_valente_wx_set_backlight(struct msm_fb_data_type *mfd);
 static int cur_bl_level = 0;
 
 static char enter_sleep[2] = {0x10, 0x00}; /* DTYPE_DCS_WRITE */
@@ -20,9 +20,9 @@ static char display_off[2] = {0x28, 0x00}; /* DTYPE_DCS_WRITE */
 static char display_on[2] = {0x29, 0x00}; /* DTYPE_DCS_WRITE */
 static char enable_te[2] = {0x35, 0x00}; /* DTYPE_DCS_WRITE1 */
 
-static char ville_panel_width[] = {0x2A, 0x00, 0x1E, 0x02, 0x39}; /* DTYPE_DCS_LWRITE */
-static char ville_panel_height[] = {0x2B, 0x00, 0x00, 0x03, 0xBF}; /* DTYPE_DCS_LWRITE */
-static char ville_panel_vinit[] = {0xD1, 0x8A}; /* DTYPE_DCS_WRITE1 */
+static char valente_wx_panel_width[] = {0x2A, 0x00, 0x1E, 0x02, 0x39}; /* DTYPE_DCS_LWRITE */
+static char valente_wx_panel_height[] = {0x2B, 0x00, 0x00, 0x03, 0xBF}; /* DTYPE_DCS_LWRITE */
+static char valente_wx_panel_vinit[] = {0xD1, 0x8A}; /* DTYPE_DCS_WRITE1 */
 
 static char vle_e0[] = {0xF0, 0x5A, 0x5A}; /* DTYPE_DCS_LWRITE */
 static char vle_e1[] = {0xF1, 0x5A, 0x5A}; /* DTYPE_DCS_LWRITE */
@@ -57,11 +57,11 @@ static char vle_e16[] = {0xB1, 0x01, 0x00, 0x16}; /* DTYPE_DCS_LWRITE */
 static char vle_e17[] = {0xB2, 0x10, 0x10, 0x10, 0x10}; /* DTYPE_DCS_LWRITE */
 static char vle_e17_C2[] = {0xB2, 0x15, 0x15, 0x15, 0x15}; /* DTYPE_DCS_LWRITE */
 
-static struct dsi_cmd_desc ville_display_on_cmds[] = {
+static struct dsi_cmd_desc valente_wx_display_on_cmds[] = {
 	{DTYPE_DCS_WRITE, 1, 0, 0, 0, sizeof(display_on), display_on},
 };
 
-static struct dsi_cmd_desc ville_cmd_on_cmds[] = {
+static struct dsi_cmd_desc valente_wx_cmd_on_cmds[] = {
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e0), vle_e0},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e1), vle_e1},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e22), vle_e22},
@@ -86,12 +86,12 @@ static struct dsi_cmd_desc ville_cmd_on_cmds[] = {
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e17), vle_e17},
 	{DTYPE_DCS_WRITE, 1, 0, 0, 0, sizeof(exit_sleep), exit_sleep},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(enable_te), enable_te},
-	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(ville_panel_width), ville_panel_width},
-	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(ville_panel_height), ville_panel_height},
-	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(ville_panel_vinit), ville_panel_vinit},
+	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(valente_wx_panel_width), valente_wx_panel_width},
+	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(valente_wx_panel_height), valente_wx_panel_height},
+	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(valente_wx_panel_vinit), valente_wx_panel_vinit},
 };
 
-static struct dsi_cmd_desc ville_cmd_on_cmds_c2[] = {
+static struct dsi_cmd_desc valente_wx_cmd_on_cmds_c2[] = {
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e0), vle_e0},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e1), vle_e1},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e22), vle_e22},
@@ -116,13 +116,13 @@ static struct dsi_cmd_desc ville_cmd_on_cmds_c2[] = {
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e17_C2), vle_e17_C2},
 	{DTYPE_DCS_WRITE, 1, 0, 0, 0, sizeof(exit_sleep), exit_sleep},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(enable_te), enable_te},
-	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(ville_panel_width), ville_panel_width},
-	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(ville_panel_height), ville_panel_height},
-	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(ville_panel_vinit), ville_panel_vinit},
+	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(valente_wx_panel_width), valente_wx_panel_width},
+	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(valente_wx_panel_height), valente_wx_panel_height},
+	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(valente_wx_panel_vinit), valente_wx_panel_vinit},
 };
 
 
-static struct dsi_cmd_desc ville_display_off_cmds[] = {
+static struct dsi_cmd_desc valente_wx_display_off_cmds[] = {
 	{DTYPE_DCS_WRITE, 1, 0, 0, 0,
 		sizeof(display_off), display_off},
 	{DTYPE_DCS_WRITE, 1, 0, 0, 120,
@@ -179,11 +179,11 @@ static struct dsi_cmd_desc auo_display_off_cmds[] = {
 		sizeof(enter_sleep), enter_sleep}
 };
 
-#define AMOLED_NUM_LEVELS 	ARRAY_SIZE(ville_amoled_gamma_table)
-#define AMOLED_NUM_LEVELS_C2 	ARRAY_SIZE(ville_amoled_gamma_table_c2)
+#define AMOLED_NUM_LEVELS 	ARRAY_SIZE(valente_wx_amoled_gamma_table)
+#define AMOLED_NUM_LEVELS_C2 	ARRAY_SIZE(valente_wx_amoled_gamma_table_c2)
 
 
-static const char ville_amoled_gamma_table[][AMOLED_GAMMA_TABLE_SIZE] = {
+static const char valente_wx_amoled_gamma_table[][AMOLED_GAMMA_TABLE_SIZE] = {
 	/* level 10 */
 	{0xFA, 0x02, 0x10, 0x10, 0x10, 0x59, 0x5F, 0x66, 0x81, 0x80,
 		0x7F, 0xD9, 0xC3, 0xD5, 0xCD, 0xA3, 0xC7, 0xDB, 0xD2, 0xDD,
@@ -222,7 +222,7 @@ static const char ville_amoled_gamma_table[][AMOLED_GAMMA_TABLE_SIZE] = {
 		0x00, 0xB9, 0x00, 0x93, 0x00, 0xD9},
 };
 
-static const char ville_amoled_gamma_table_c2[][AMOLED_GAMMA_TABLE_SIZE] = {
+static const char valente_wx_amoled_gamma_table_c2[][AMOLED_GAMMA_TABLE_SIZE] = {
 	/* level 10 */
 //	{0xFA, 0x02, 0x55, 0x43, 0x58, 0x5A, 0x5A, 0x5A, 0x80, 0x80,
 //		0x80, 0xBD, 0xC6, 0xBB, 0x96, 0xA6, 0x93, 0xBD, 0xCD, 0xC6,
@@ -300,7 +300,7 @@ static char set_gamma[AMOLED_GAMMA_TABLE_SIZE] = {
 	0xD1, 0xDC, 0xD7, 0xDD, 0xBD, 0xC0, 0xBA, 0xCD, 0xC9, 0xC8,
 	0x00, 0x8C, 0x00, 0x6F, 0x00, 0xA0};
 
-static struct dsi_cmd_desc ville_cmd_backlight_cmds[] = {
+static struct dsi_cmd_desc valente_wx_cmd_backlight_cmds[] = {
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0, sizeof(set_gamma), set_gamma},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(vle_g1), vle_g1},
 };
@@ -321,7 +321,7 @@ static struct gamma_curvy smd_gamma_tbl = {
 };
 #endif
 
-static int ville_send_display_cmds(struct dsi_cmd_desc *cmd, int cnt,
+static int valente_wx_send_display_cmds(struct dsi_cmd_desc *cmd, int cnt,
 		bool clk_ctrl)
 {
 	int ret = 0;
@@ -342,7 +342,7 @@ static int ville_send_display_cmds(struct dsi_cmd_desc *cmd, int cnt,
 }
 
 int mipi_lcd_on = 1;
-static int mipi_ville_lcd_on(struct platform_device *pdev)
+static int mipi_valente_wx_lcd_on(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
 	struct mipi_panel_info *mipi;
@@ -360,12 +360,12 @@ static int mipi_ville_lcd_on(struct platform_device *pdev)
 	}
 
 	switch (panel_type) {
-	case PANEL_ID_VILLE_SAMSUNG_SG:
-	case PANEL_ID_VILLE_SAMSUNG_SG_C2:
-		ville_send_display_cmds(cmd_on_cmds, cmd_on_cmds_count, false);
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG:
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG_C2:
+		valente_wx_send_display_cmds(cmd_on_cmds, cmd_on_cmds_count, false);
 		break;
-	case PANEL_ID_VILLE_AUO:
-		ville_send_display_cmds(cmd_on_cmds, cmd_on_cmds_count, true);
+	case PANEL_ID_VALENTE_WX_AUO:
+		valente_wx_send_display_cmds(cmd_on_cmds, cmd_on_cmds_count, true);
 		break;
 	default:
 		pr_err("%s: panel_type is not supported!(%d)\n",
@@ -376,7 +376,7 @@ static int mipi_ville_lcd_on(struct platform_device *pdev)
 	return 0;
 }
 
-static int mipi_ville_lcd_off(struct platform_device *pdev)
+static int mipi_valente_wx_lcd_off(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
 
@@ -395,7 +395,7 @@ static int mipi_ville_lcd_off(struct platform_device *pdev)
 	return 0;
 }
 
-static int mipi_ville_display_on(struct platform_device *pdev)
+static int mipi_valente_wx_display_on(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
 	struct mipi_panel_info *mipi;
@@ -416,13 +416,13 @@ static int mipi_ville_display_on(struct platform_device *pdev)
 	}
 
 	switch (panel_type) {
-	case PANEL_ID_VILLE_SAMSUNG_SG:
-	case PANEL_ID_VILLE_SAMSUNG_SG_C2:
-		ville_send_display_cmds(display_on_cmds,
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG:
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG_C2:
+		valente_wx_send_display_cmds(display_on_cmds,
 				display_on_cmds_count, false);
 		break;
-	case PANEL_ID_VILLE_AUO:
-		ville_send_display_cmds(display_on_cmds,
+	case PANEL_ID_VALENTE_WX_AUO:
+		valente_wx_send_display_cmds(display_on_cmds,
 				display_on_cmds_count, true);
 		break;
 	default:
@@ -435,7 +435,7 @@ static int mipi_ville_display_on(struct platform_device *pdev)
 	return 0;
 }
 
-static int mipi_ville_display_off(struct platform_device *pdev)
+static int mipi_valente_wx_display_off(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
 
@@ -447,13 +447,13 @@ static int mipi_ville_display_off(struct platform_device *pdev)
 		return -EINVAL;
 
 	if (panel_type != PANEL_ID_NONE)
-		ville_send_display_cmds(display_off_cmds,
+		valente_wx_send_display_cmds(display_off_cmds,
 				display_off_cmds_count, false);
 
 	return 0;
 }
 
-static unsigned char ville_shrink_pwm(int val)
+static unsigned char valente_wx_shrink_pwm(int val)
 {
 	int i;
 	int level, frac, shrink_br = 255;
@@ -483,10 +483,10 @@ static unsigned char ville_shrink_pwm(int val)
 
 	for (i = 0 ; i < AMOLED_GAMMA_TABLE_SIZE ; ++i) {
 		if (frac == 0 || level == 8) {
-			interpolate_gamma = ville_amoled_gamma_table[level][i];
+			interpolate_gamma = valente_wx_amoled_gamma_table[level][i];
 		} else {
-			prev_gamma = ville_amoled_gamma_table[level][i];
-			next_gammma = ville_amoled_gamma_table[level+1][i];
+			prev_gamma = valente_wx_amoled_gamma_table[level][i];
+			next_gammma = valente_wx_amoled_gamma_table[level+1][i];
 			interpolate_gamma = (prev_gamma * (AMOLED_LEVEL_STEP -
 									frac) + next_gammma * frac) /
 									AMOLED_LEVEL_STEP;
@@ -497,7 +497,7 @@ static unsigned char ville_shrink_pwm(int val)
 	return val;
 }
 
-static unsigned char ville_shrink_pwm_c2(int val)
+static unsigned char valente_wx_shrink_pwm_c2(int val)
 {
 	int i;
 	int level, frac, shrink_br = 255;
@@ -527,10 +527,10 @@ static unsigned char ville_shrink_pwm_c2(int val)
 
 	for (i = 0; i < AMOLED_GAMMA_TABLE_SIZE - 2; ++i) {
 		if (frac == 0 || level == 14) {
-			interpolate_gamma = ville_amoled_gamma_table_c2[level][i];
+			interpolate_gamma = valente_wx_amoled_gamma_table_c2[level][i];
 		} else {
-			prev_gamma = ville_amoled_gamma_table_c2[level][i];
-			next_gammma = ville_amoled_gamma_table_c2[level+1][i];
+			prev_gamma = valente_wx_amoled_gamma_table_c2[level][i];
+			next_gammma = valente_wx_amoled_gamma_table_c2[level+1][i];
 			interpolate_gamma = (prev_gamma * (AMOLED_LEVEL_STEP_C2 -
 									frac) + next_gammma * frac) /
 									AMOLED_LEVEL_STEP_C2;
@@ -540,11 +540,11 @@ static unsigned char ville_shrink_pwm_c2(int val)
 
 	/* special case for SMD gamma setting  */
 	if(frac == 0 || level == 14) {
-		set_gamma[24] = (char)(ville_amoled_gamma_table_c2[level][24]);
-		set_gamma[25] = (char)(ville_amoled_gamma_table_c2[level][25]);
+		set_gamma[24] = (char)(valente_wx_amoled_gamma_table_c2[level][24]);
+		set_gamma[25] = (char)(valente_wx_amoled_gamma_table_c2[level][25]);
 	} else {
-		prev_gamma = ville_amoled_gamma_table_c2[level][24] * 256 + ville_amoled_gamma_table_c2[level][25];
-		next_gammma = ville_amoled_gamma_table_c2[level+1][24] * 256 + ville_amoled_gamma_table_c2[level+1][25];
+		prev_gamma = valente_wx_amoled_gamma_table_c2[level][24] * 256 + valente_wx_amoled_gamma_table_c2[level][25];
+		next_gammma = valente_wx_amoled_gamma_table_c2[level+1][24] * 256 + valente_wx_amoled_gamma_table_c2[level+1][25];
 		interpolate_gamma = (prev_gamma * (AMOLED_LEVEL_STEP_C2 -
 						frac) + next_gammma * frac) /
 						AMOLED_LEVEL_STEP_C2;
@@ -562,44 +562,44 @@ inline void mipi_dsi_set_backlight(struct msm_fb_data_type *mfd, int level)
 	mipi  = &mfd->panel_info.mipi;
 
 	switch (panel_type) {
-	case PANEL_ID_VILLE_SAMSUNG_SG:
-		ville_shrink_pwm(mfd->bl_level);
-		ville_send_display_cmds(ville_cmd_backlight_cmds,
-				ARRAY_SIZE(ville_cmd_backlight_cmds), true);
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG:
+		valente_wx_shrink_pwm(mfd->bl_level);
+		valente_wx_send_display_cmds(valente_wx_cmd_backlight_cmds,
+				ARRAY_SIZE(valente_wx_cmd_backlight_cmds), true);
 		break;
-	case PANEL_ID_VILLE_SAMSUNG_SG_C2:
-		ville_shrink_pwm_c2(mfd->bl_level);
-		ville_send_display_cmds(ville_cmd_backlight_cmds,
-				ARRAY_SIZE(ville_cmd_backlight_cmds), true);
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG_C2:
+		valente_wx_shrink_pwm_c2(mfd->bl_level);
+		valente_wx_send_display_cmds(valente_wx_cmd_backlight_cmds,
+				ARRAY_SIZE(valente_wx_cmd_backlight_cmds), true);
 		break;
 	default:
 		break;
 	}
 }
 
-static void mipi_ville_set_backlight(struct msm_fb_data_type *mfd)
+static void mipi_valente_wx_set_backlight(struct msm_fb_data_type *mfd)
 {
 	mipi_dsi_set_backlight(mfd, mfd->bl_level);
 
 	cur_bl_level = mfd->bl_level;
 }
 
-static int __devinit mipi_ville_lcd_probe(struct platform_device *pdev)
+static int __devinit mipi_valente_wx_lcd_probe(struct platform_device *pdev)
 {
 	switch (panel_type) {
-	case PANEL_ID_VILLE_SAMSUNG_SG:
-		display_off_cmds = ville_display_off_cmds;
-		display_off_cmds_count = ARRAY_SIZE(ville_display_off_cmds);
-		cmd_on_cmds = ville_cmd_on_cmds;
-		cmd_on_cmds_count = ARRAY_SIZE(ville_cmd_on_cmds);
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG:
+		display_off_cmds = valente_wx_display_off_cmds;
+		display_off_cmds_count = ARRAY_SIZE(valente_wx_display_off_cmds);
+		cmd_on_cmds = valente_wx_cmd_on_cmds;
+		cmd_on_cmds_count = ARRAY_SIZE(valente_wx_cmd_on_cmds);
 		break;
-	case PANEL_ID_VILLE_SAMSUNG_SG_C2:
-		display_off_cmds = ville_display_off_cmds;
-		display_off_cmds_count = ARRAY_SIZE(ville_display_off_cmds);
-		cmd_on_cmds = ville_cmd_on_cmds_c2;
-		cmd_on_cmds_count = ARRAY_SIZE(ville_cmd_on_cmds_c2);
+	case PANEL_ID_VALENTE_WX_SAMSUNG_SG_C2:
+		display_off_cmds = valente_wx_display_off_cmds;
+		display_off_cmds_count = ARRAY_SIZE(valente_wx_display_off_cmds);
+		cmd_on_cmds = valente_wx_cmd_on_cmds_c2;
+		cmd_on_cmds_count = ARRAY_SIZE(valente_wx_cmd_on_cmds_c2);
 		break;
-	case PANEL_ID_VILLE_AUO:
+	case PANEL_ID_VALENTE_WX_AUO:
 		display_off_cmds = auo_display_off_cmds;
 		display_off_cmds_count = ARRAY_SIZE(auo_display_off_cmds);
 		cmd_on_cmds = auo_cmd_on_cmds;
@@ -608,11 +608,11 @@ static int __devinit mipi_ville_lcd_probe(struct platform_device *pdev)
 	default:
 		break;
 	}
-	display_on_cmds = ville_display_on_cmds;
-	display_on_cmds_count = ARRAY_SIZE(ville_display_on_cmds);
+	display_on_cmds = valente_wx_display_on_cmds;
+	display_on_cmds_count = ARRAY_SIZE(valente_wx_display_on_cmds);
 
 	if (pdev->id == 0) {
-		mipi_ville_pdata = pdev->dev.platform_data;
+		mipi_valente_wx_pdata = pdev->dev.platform_data;
 		return 0;
 	}
 	msm_fb_add_device(pdev);
@@ -620,23 +620,23 @@ static int __devinit mipi_ville_lcd_probe(struct platform_device *pdev)
 }
 
 static struct platform_driver this_driver = {
-	.probe  = mipi_ville_lcd_probe,
+	.probe  = mipi_valente_wx_lcd_probe,
 	.driver = {
-		.name = "mipi_ville",
+		.name = "mipi_valente_wx",
 	},
 };
 
-static struct msm_fb_panel_data ville_panel_data = {
-	.on		= mipi_ville_lcd_on,
-	.off		= mipi_ville_lcd_off,
-	.set_backlight	= mipi_ville_set_backlight,
-	.late_init	= mipi_ville_display_on,
-	.early_off	= mipi_ville_display_off,
+static struct msm_fb_panel_data valente_wx_panel_data = {
+	.on		= mipi_valente_wx_lcd_on,
+	.off		= mipi_valente_wx_lcd_off,
+	.set_backlight	= mipi_valente_wx_set_backlight,
+	.late_init	= mipi_valente_wx_display_on,
+	.early_off	= mipi_valente_wx_display_off,
 };
 
 static int ch_used[3];
 
-int mipi_ville_device_register(struct msm_panel_info *pinfo,
+int mipi_valente_wx_device_register(struct msm_panel_info *pinfo,
 					u32 channel, u32 panel)
 {
 	struct platform_device *pdev = NULL;
@@ -647,20 +647,20 @@ int mipi_ville_device_register(struct msm_panel_info *pinfo,
 
 	ch_used[channel] = TRUE;
 
-	ret = mipi_ville_lcd_init();
+	ret = mipi_valente_wx_lcd_init();
 	if (ret) {
-		pr_err("mipi_ville_lcd_init() failed with ret %u\n", ret);
+		pr_err("mipi_valente_wx_lcd_init() failed with ret %u\n", ret);
 		return ret;
 	}
 
-	pdev = platform_device_alloc("mipi_ville", (panel << 8)|channel);
+	pdev = platform_device_alloc("mipi_valente_wx", (panel << 8)|channel);
 	if (!pdev)
 		return -ENOMEM;
 
-	ville_panel_data.panel_info = *pinfo;
+	valente_wx_panel_data.panel_info = *pinfo;
 
-	ret = platform_device_add_data(pdev, &ville_panel_data,
-		sizeof(ville_panel_data));
+	ret = platform_device_add_data(pdev, &valente_wx_panel_data,
+		sizeof(valente_wx_panel_data));
 	if (ret) {
 		pr_err("%s: platform_device_add_data failed!\n", __func__);
 		goto err_device_put;
@@ -679,7 +679,7 @@ err_device_put:
 	return ret;
 }
 
-static int mipi_ville_lcd_init(void)
+static int mipi_valente_wx_lcd_init(void)
 {
 	return platform_driver_register(&this_driver);
 }

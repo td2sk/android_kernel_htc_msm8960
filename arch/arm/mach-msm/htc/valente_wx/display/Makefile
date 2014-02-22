@@ -1,1 +1,1 @@
-obj-$(CONFIG_MACH_VILLE) += mipi_ville.o mipi_ville_cmd_qhd_pt.o board-ville-panel.o
+obj-$(CONFIG_MACH_VALENTE_WX) += mipi_valente_wx.o mipi_valente_wx_cmd_qhd_pt.o board-valente_wx-panel.o

@@ -1,6 +1,6 @@
 #include "../../../drivers/video/msm/msm_fb.h"
 #include "../../../drivers/video/msm/mipi_dsi.h"
-#include "mipi_ville.h"
+#include "mipi_valente_wx.h"
 
 static struct mipi_dsi_phy_ctrl dsi_cmd_mode_phy_db = {
 	/* DSI_BIT_CLK at 250MHz, 2 lane, RGB888 */
@@ -21,7 +21,7 @@ static struct mipi_dsi_phy_ctrl dsi_cmd_mode_phy_db = {
 
 static struct msm_panel_info pinfo;
 
-static int __init mipi_cmd_ville_qhd_pt_init(void)
+static int __init mipi_cmd_valente_wx_qhd_pt_init(void)
 {
 	int ret;
 #if defined (CONFIG_FB_MSM_MDP_ABL)
@@ -84,7 +84,7 @@ static int __init mipi_cmd_ville_qhd_pt_init(void)
 	pinfo.mipi.wr_mem_start = 0x2c;
 	pinfo.mipi.dsi_phy_db = &dsi_cmd_mode_phy_db;
 
-	ret = mipi_ville_device_register(&pinfo, MIPI_DSI_PRIM,
+	ret = mipi_valente_wx_device_register(&pinfo, MIPI_DSI_PRIM,
 						MIPI_DSI_PANEL_QHD_PT);
 	if (ret)
 		printk(KERN_ERR "%s: failed to register device!\n", __func__);
@@ -92,4 +92,4 @@ static int __init mipi_cmd_ville_qhd_pt_init(void)
 	return ret;
 }
 
-late_initcall(mipi_cmd_ville_qhd_pt_init);
+late_initcall(mipi_cmd_valente_wx_qhd_pt_init);

@@ -20,7 +20,7 @@
 #include <asm/setup.h>
 
 #include "devices.h"
-#include "board-ville.h"
+#include "board-valente_wx.h"
 
 #include <linux/spi/spi.h>
 
@@ -146,16 +146,16 @@ static struct gpiomux_setting cam_settings[16] = {
 	},
 };
 
-static struct msm_gpiomux_config ville_cam_configs[] = {
+static struct msm_gpiomux_config valente_wx_cam_configs[] = {
 	{
-		.gpio = VILLE_GPIO_CAM_MCLK1,
+		.gpio = VALENTE_WX_GPIO_CAM_MCLK1,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[13], /*A FUNC2 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[10], /*O(L) 8MA*/
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_CAM_MCLK0,
+		.gpio = VALENTE_WX_GPIO_CAM_MCLK0,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[3],  /*Fun1 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[10], /*O(L) 8MA*/
@@ -163,7 +163,7 @@ static struct msm_gpiomux_config ville_cam_configs[] = {
 	},
 
 	{
-		.gpio = VILLE_GPIO_CAM_PWDN,
+		.gpio = VALENTE_WX_GPIO_CAM_PWDN,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[9],       /*O(H) 2MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[12],  /*O(L) 2MA*/
@@ -171,28 +171,28 @@ static struct msm_gpiomux_config ville_cam_configs[] = {
 	},
 
 	{
-		.gpio = VILLE_GPIO_CAM_I2C_DAT,
+		.gpio = VALENTE_WX_GPIO_CAM_I2C_DAT,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[3], /*FUNC1 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[15], /*I(PD) 8MA*/
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_CAM_I2C_CLK,
+		.gpio = VALENTE_WX_GPIO_CAM_I2C_CLK,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[3], /*FUNC1 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[15], /*I(PD) 8MA*/
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_RAW_INTR0,
+		.gpio = VALENTE_WX_GPIO_RAW_INTR0,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[7], /*I(NP) 2MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[8], /*I(PD) 2MA*/
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_RAW_INTR1,
+		.gpio = VALENTE_WX_GPIO_RAW_INTR1,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[7], /*I(NP) 2MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[8], /*I(PD) 2MA*/
@@ -200,28 +200,28 @@ static struct msm_gpiomux_config ville_cam_configs[] = {
 	},
 	/* gpio config for Rawchip SPI - gsbi10 */
 	{
-		.gpio      = VILLE_GPIO_MCAM_SPI_CLK,
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_CLK,
 		.settings = {
 			[GPIOMUX_ACTIVE] = &cam_settings[13], /*A FUNC2 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[15], /* I(PD) 8MA */
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_MCAM_SPI_CS0,
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_CS0,
 		.settings = {
 			[GPIOMUX_ACTIVE] = &cam_settings[13], /*A FUNC2 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[15], /* I(PD) 8MA */
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_MCAM_SPI_DI,
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_DI,
 		.settings = {
 			[GPIOMUX_ACTIVE] = &cam_settings[13], /*A FUNC2 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[15], /* I(PD) 8MA */
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_MCAM_SPI_DO,
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_DO,
 		.settings = {
 			[GPIOMUX_ACTIVE] = &cam_settings[13], /*A FUNC2 8MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[15], /* I(PD) 8MA */
@@ -363,16 +363,16 @@ static struct msm_bus_scale_pdata cam_bus_client_pdata = {
 		.name = "msm_camera",
 };
 
-static int ville_csi_vreg_on(void);
-static int ville_csi_vreg_off(void);
+static int valente_wx_csi_vreg_on(void);
+static int valente_wx_csi_vreg_off(void);
 
 struct msm_camera_device_platform_data msm_camera_csi_device_data[] = {
 	{
 		.ioclk.mclk_clk_rate = 24000000,
 		.ioclk.vfe_clk_rate  = 228570000,
 		.csid_core = 0,
-		.camera_csi_on = ville_csi_vreg_on,
-		.camera_csi_off = ville_csi_vreg_off,
+		.camera_csi_on = valente_wx_csi_vreg_on,
+		.camera_csi_off = valente_wx_csi_vreg_off,
 		.cam_bus_scale_table = &cam_bus_client_pdata,
 		.is_csiphy = 1,
 		.is_csid   = 1,
@@ -383,8 +383,8 @@ struct msm_camera_device_platform_data msm_camera_csi_device_data[] = {
 		.ioclk.mclk_clk_rate = 24000000,
 		.ioclk.vfe_clk_rate  = 228570000,
 		.csid_core = 1,
-		.camera_csi_on = ville_csi_vreg_on,
-		.camera_csi_off = ville_csi_vreg_off,
+		.camera_csi_on = valente_wx_csi_vreg_on,
+		.camera_csi_off = valente_wx_csi_vreg_off,
 		.cam_bus_scale_table = &cam_bus_client_pdata,
 		.is_csiphy = 1,
 		.is_csid   = 1,
@@ -397,7 +397,7 @@ struct msm_camera_device_platform_data msm_camera_csi_device_data[] = {
 #define LED_ON				1
 #define LED_OFF				0
 
-int ville_flashlight_control(int mode)
+int valente_wx_flashlight_control(int mode)
 {
 #ifdef CONFIG_FLASHLIGHT_TPS61310
 	return tps61310_flashlight_control(mode);
@@ -408,7 +408,7 @@ int ville_flashlight_control(int mode)
 
 static struct msm_camera_sensor_flash_src msm_flash_src = {
 	.flash_sr_type = MSM_CAMERA_FLASH_SRC_CURRENT_DRIVER,
-	.camera_flash = ville_flashlight_control,
+	.camera_flash = valente_wx_flashlight_control,
 };
 #endif /* CONFIG_MSM_CAMERA_FLASH */
 
@@ -420,7 +420,7 @@ GPIO#93 == V_CAM_D1V8
 8921_l9 == V_CAM_VCM2V8
 */
 #ifdef CONFIG_RAWCHIP
-static int ville_use_ext_1v2(void)
+static int valente_wx_use_ext_1v2(void)
 {
 	return 0;
 }
@@ -430,7 +430,7 @@ static struct regulator *reg_8921_l8;
 static struct regulator *reg_8921_l9;
 static struct regulator *reg_8921_lvs6;
 
-static int ville_rawchip_vreg_on(void)
+static int valente_wx_rawchip_vreg_on(void)
 {
 	int rc;
 	pr_info("[CAM] %s\n", __func__);
@@ -452,13 +452,13 @@ static int ville_rawchip_vreg_on(void)
 	mdelay(5);
 
 	/* digital */
-	rc = gpio_request(VILLE_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
+	rc = gpio_request(VALENTE_WX_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_enable(\"gpio %d\", 1.2V) FAILED %d\n", VILLE_GPIO_V_CAM_D1V2_EN, rc);
+		pr_err("[CAM] sensor_power_enable(\"gpio %d\", 1.2V) FAILED %d\n", VALENTE_WX_GPIO_V_CAM_D1V2_EN, rc);
 		goto enable_1v2_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_CAM_D1V2_EN, 1);
-	gpio_free(VILLE_GPIO_V_CAM_D1V2_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_CAM_D1V2_EN, 1);
+	gpio_free(VALENTE_WX_GPIO_V_CAM_D1V2_EN);
 
 	/* analog */
 	/* Mu Lee for sequence with raw chip 20120116 */
@@ -469,22 +469,22 @@ static int ville_rawchip_vreg_on(void)
 	}
 
 	/* LCMIO */
-	rc = gpio_request(VILLE_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN"); /* Mu Lee for sequence with raw chip 20120116 */
+	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN"); /* Mu Lee for sequence with raw chip 20120116 */
 	if (rc < 0) {
-		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_V_LCMIO_1V8_EN, rc);
+		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_LCMIO_1V8_EN, rc);
 		goto lcmio_hi_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_LCMIO_1V8_EN, 1); /* Mu Lee for sequence with raw chip 20120116 */
-	gpio_free(VILLE_GPIO_V_LCMIO_1V8_EN); /* Mu Lee for sequence with raw chip 20120116 */
+	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 1); /* Mu Lee for sequence with raw chip 20120116 */
+	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN); /* Mu Lee for sequence with raw chip 20120116 */
 
 	return rc;
 
 lcmio_hi_fail:
 	camera_sensor_power_disable(reg_8921_l8);
 enable_analog_fail:
-	gpio_request(VILLE_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
-	gpio_direction_output(VILLE_GPIO_V_CAM_D1V2_EN, 0);
-	gpio_free(VILLE_GPIO_V_CAM_D1V2_EN);
+	gpio_request(VALENTE_WX_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
+	gpio_direction_output(VALENTE_WX_GPIO_V_CAM_D1V2_EN, 0);
+	gpio_free(VALENTE_WX_GPIO_V_CAM_D1V2_EN);
 enable_1v2_fail:
 	camera_sensor_power_disable(reg_8921_lvs6);
 enable_1v8_fail:
@@ -493,7 +493,7 @@ enable_VCM_fail:
 	return rc;
 }
 
-static int ville_rawchip_vreg_off(void)
+static int valente_wx_rawchip_vreg_off(void)
 {
 	int rc = 0;
 
@@ -503,33 +503,33 @@ static int ville_rawchip_vreg_off(void)
 	rc = camera_sensor_power_disable(reg_8921_l8);
 	if (rc < 0) {
 		pr_err("[CAM] sensor_power_disable(\"8921_l8\") FAILED %d\n", rc);
-		goto ville_rawchip_vreg_off_fail;
+		goto valente_wx_rawchip_vreg_off_fail;
 	}
 
-	rc = gpio_request(VILLE_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
+	rc = gpio_request(VALENTE_WX_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_enable(\"gpio %d\", 1.2V) FAILED %d\n", VILLE_GPIO_V_CAM_D1V2_EN, rc);
-		goto ville_rawchip_vreg_off_fail;
+		pr_err("[CAM] sensor_power_enable(\"gpio %d\", 1.2V) FAILED %d\n", VALENTE_WX_GPIO_V_CAM_D1V2_EN, rc);
+		goto valente_wx_rawchip_vreg_off_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_CAM_D1V2_EN, 0);
-	gpio_free(VILLE_GPIO_V_CAM_D1V2_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_CAM_D1V2_EN, 0);
+	gpio_free(VALENTE_WX_GPIO_V_CAM_D1V2_EN);
 
 	udelay(50);
 
-	rc = gpio_request(VILLE_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
+	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
 	if (rc < 0) {
-		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_V_LCMIO_1V8_EN, rc);
-		goto ville_rawchip_vreg_off_fail;
+		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_LCMIO_1V8_EN, rc);
+		goto valente_wx_rawchip_vreg_off_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_LCMIO_1V8_EN, 0);
-	gpio_free(VILLE_GPIO_V_LCMIO_1V8_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 0);
+	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 
 	mdelay(5);
 
 	rc = camera_sensor_power_disable(reg_8921_lvs6);
 	if (rc < 0) {
 		pr_err("[CAM] rawchip_power_disable(\"8921_lvs6\", 1.8V) FAILED %d\n", rc);
-		goto ville_rawchip_vreg_off_fail;
+		goto valente_wx_rawchip_vreg_off_fail;
 	}
 
 	/* VCM */
@@ -537,24 +537,24 @@ static int ville_rawchip_vreg_off(void)
 	rc = camera_sensor_power_disable(reg_8921_l9);
 	if (rc < 0) {
 		pr_err("[CAM] sensor_power_disable(\"8921_l9\") FAILED %d\n", rc);
-		goto ville_rawchip_vreg_off_fail;
+		goto valente_wx_rawchip_vreg_off_fail;
 	}
 
 	return rc;
 
-ville_rawchip_vreg_off_fail:
+valente_wx_rawchip_vreg_off_fail:
 	return rc;
 }
 
 static struct msm_camera_rawchip_info msm_rawchip_board_info = {
-	.rawchip_reset	= VILLE_GPIO_RAW_RSTN,
-	.rawchip_intr0	= MSM_GPIO_TO_INT(VILLE_GPIO_RAW_INTR0),
-	.rawchip_intr1	= MSM_GPIO_TO_INT(VILLE_GPIO_RAW_INTR1),
+	.rawchip_reset	= VALENTE_WX_GPIO_RAW_RSTN,
+	.rawchip_intr0	= MSM_GPIO_TO_INT(VALENTE_WX_GPIO_RAW_INTR0),
+	.rawchip_intr1	= MSM_GPIO_TO_INT(VALENTE_WX_GPIO_RAW_INTR1),
 	.rawchip_spi_freq = 27, /* MHz, should be the same to spi max_speed_hz */
 	.rawchip_mclk_freq = 24, /* MHz, should be the same as cam csi0 mclk_clk_rate */
-	.camera_rawchip_power_on = ville_rawchip_vreg_on,
-	.camera_rawchip_power_off = ville_rawchip_vreg_off,
-	.rawchip_use_ext_1v2 = ville_use_ext_1v2,
+	.camera_rawchip_power_on = valente_wx_rawchip_vreg_on,
+	.camera_rawchip_power_off = valente_wx_rawchip_vreg_off,
+	.rawchip_use_ext_1v2 = valente_wx_use_ext_1v2,
 };
 
 static struct platform_device msm_rawchip_device = {
@@ -566,14 +566,14 @@ static struct platform_device msm_rawchip_device = {
 #endif /* CONFIG_RAWCHIP */
 
 static uint16_t msm_cam_gpio_tbl[] = {
-	VILLE_GPIO_CAM_MCLK0, /*CAMIF_MCLK*/
-	VILLE_GPIO_CAM_MCLK1,
-	VILLE_GPIO_RAW_INTR0,
-	VILLE_GPIO_RAW_INTR1,
-	VILLE_GPIO_MCAM_SPI_CLK,
-	VILLE_GPIO_MCAM_SPI_CS0,
-	VILLE_GPIO_MCAM_SPI_DI,
-	VILLE_GPIO_MCAM_SPI_DO,
+	VALENTE_WX_GPIO_CAM_MCLK0, /*CAMIF_MCLK*/
+	VALENTE_WX_GPIO_CAM_MCLK1,
+	VALENTE_WX_GPIO_RAW_INTR0,
+	VALENTE_WX_GPIO_RAW_INTR1,
+	VALENTE_WX_GPIO_MCAM_SPI_CLK,
+	VALENTE_WX_GPIO_MCAM_SPI_CS0,
+	VALENTE_WX_GPIO_MCAM_SPI_DI,
+	VALENTE_WX_GPIO_MCAM_SPI_DO,
 };
 
 static struct msm_camera_gpio_conf gpio_conf = {
@@ -639,20 +639,20 @@ static int camera_sensor_power_disable(struct regulator *sensor_power)
 	return rc;
 }
 
-static int ville_csi_vreg_on(void)
+static int valente_wx_csi_vreg_on(void)
 {
 	pr_info("%s\n", __func__);
 	return camera_sensor_power_enable("8921_l2", 1200000, &reg_8921_l2);
 }
 
-static int ville_csi_vreg_off(void)
+static int valente_wx_csi_vreg_off(void)
 {
 	pr_info("%s\n", __func__);
 	return camera_sensor_power_disable(reg_8921_l2);
 }
 
 #ifdef CONFIG_S5K3H2YX
-static int ville_s5k3h2yx_vreg_on(void)
+static int valente_wx_s5k3h2yx_vreg_on(void)
 {
 	int rc = 0;
 	pr_info("[CAM] %s\n", __func__);
@@ -684,21 +684,21 @@ static int ville_s5k3h2yx_vreg_on(void)
 
 	/* redundant setting...enable at rawchip */
 	/* digital */
-	rc = gpio_request(VILLE_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
+	rc = gpio_request(VALENTE_WX_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
 	if (rc < 0) {
-		pr_err("[CAM] sensor_power_enable(\"gpio %d\", 1.2V) FAILED %d\n", VILLE_GPIO_V_CAM_D1V2_EN, rc);
+		pr_err("[CAM] sensor_power_enable(\"gpio %d\", 1.2V) FAILED %d\n", VALENTE_WX_GPIO_V_CAM_D1V2_EN, rc);
 		goto enable_digital_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_CAM_D1V2_EN, 1);
-	gpio_free(VILLE_GPIO_V_CAM_D1V2_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_CAM_D1V2_EN, 1);
+	gpio_free(VALENTE_WX_GPIO_V_CAM_D1V2_EN);
 
-	rc = gpio_request(VILLE_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
+	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
 	if (rc < 0) {
-		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_V_LCMIO_1V8_EN, rc);
+		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_LCMIO_1V8_EN, rc);
 		goto enable_digital_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_LCMIO_1V8_EN, 1);
-	gpio_free(VILLE_GPIO_V_LCMIO_1V8_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 1);
+	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 	return rc;
 
 enable_digital_fail:
@@ -712,7 +712,7 @@ enable_vcm_fail:
 	return rc;
 }
 
-static int ville_s5k3h2yx_vreg_off(void)
+static int valente_wx_s5k3h2yx_vreg_off(void)
 {
 	int rc = 0;
 
@@ -722,7 +722,7 @@ static int ville_s5k3h2yx_vreg_off(void)
 	rc = camera_sensor_power_disable(reg_8921_l8);
 	if (rc < 0) {
 		pr_err("[CAM] sensor_power_disable(\"8921_l8\") FAILED %d\n", rc);
-		goto ville_s5k3h2yx_vreg_off_fail;
+		goto valente_wx_s5k3h2yx_vreg_off_fail;
 	}
 
 	udelay(50);
@@ -730,36 +730,36 @@ static int ville_s5k3h2yx_vreg_off(void)
 	rc = camera_sensor_power_disable(reg_8921_l9);
 	if (rc < 0) {
 		pr_err("[CAM] sensor_power_disable(\"8921_l9\") FAILED %d\n", rc);
-		goto ville_s5k3h2yx_vreg_off_fail;
+		goto valente_wx_s5k3h2yx_vreg_off_fail;
 	}
 
 	/* digital */
 	/* remove because rawchip will turn it off latter. */
 
-	rc = gpio_request(VILLE_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
+	rc = gpio_request(VALENTE_WX_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
 	if (rc < 0) {
-		pr_err("[CAM] %s:GPIO_CAM_D1V2_EN gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_V_CAM_D1V2_EN, rc);
-		goto ville_s5k3h2yx_vreg_off_fail;
+		pr_err("[CAM] %s:GPIO_CAM_D1V2_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_CAM_D1V2_EN, rc);
+		goto valente_wx_s5k3h2yx_vreg_off_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_CAM_D1V2_EN, 0);
-	gpio_free(VILLE_GPIO_V_CAM_D1V2_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_CAM_D1V2_EN, 0);
+	gpio_free(VALENTE_WX_GPIO_V_CAM_D1V2_EN);
 
-	rc = gpio_request(VILLE_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
+	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
 	if (rc < 0) {
-		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_V_LCMIO_1V8_EN, rc);
-		goto ville_s5k3h2yx_vreg_off_fail;
+		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_LCMIO_1V8_EN, rc);
+		goto valente_wx_s5k3h2yx_vreg_off_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_LCMIO_1V8_EN, 0);
-	gpio_free(VILLE_GPIO_V_LCMIO_1V8_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 0);
+	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 
 	/* IO */
 	rc = camera_sensor_power_disable(reg_8921_lvs6);
 	if (rc < 0) {
 		pr_err("[CAM] sensor_power_disable(\"8921_lvs6\") FAILED %d\n", rc);
-		goto ville_s5k3h2yx_vreg_off_fail;
+		goto valente_wx_s5k3h2yx_vreg_off_fail;
 	}
 
-ville_s5k3h2yx_vreg_off_fail:
+valente_wx_s5k3h2yx_vreg_off_fail:
 #endif
 
 	return rc;
@@ -773,7 +773,7 @@ static struct i2c_board_info s5k3h2yx_actuator_i2c_info = {
 static struct msm_actuator_info s5k3h2yx_actuator_info = {
 	.board_info     = &s5k3h2yx_actuator_i2c_info,
 	.bus_id         = MSM_8960_GSBI4_QUP_I2C_BUS_ID,
-	.vcm_pwd        = VILLE_GPIO_CAM_VCM_PD,
+	.vcm_pwd        = VALENTE_WX_GPIO_CAM_VCM_PD,
 	.vcm_enable     = 1,
 };
 #endif
@@ -787,8 +787,8 @@ static struct msm_camera_sensor_platform_info sensor_s5k3h2yx_board_info = {
 	.mount_angle = 90,
 	.sensor_reset_enable = 0,
 	.sensor_reset	= 0,
-	.sensor_pwd	= VILLE_GPIO_CAM_PWDN,
-	.vcm_pwd	= VILLE_GPIO_CAM_VCM_PD,
+	.sensor_pwd	= VALENTE_WX_GPIO_CAM_PWDN,
+	.vcm_pwd	= VALENTE_WX_GPIO_CAM_VCM_PD,
 	.vcm_enable	= 1,
 	.csi_lane_params = &s5k3h2yx_csi_lane_params,
 };
@@ -958,8 +958,8 @@ static struct msm_camera_sensor_flash_data flash_s5k3h2yx = {
 
 static struct msm_camera_sensor_info msm_camera_sensor_s5k3h2yx_data = {
 	.sensor_name = "s5k3h2yx",
-	.camera_power_on = ville_s5k3h2yx_vreg_on,
-	.camera_power_off = ville_s5k3h2yx_vreg_off,
+	.camera_power_on = valente_wx_s5k3h2yx_vreg_on,
+	.camera_power_off = valente_wx_s5k3h2yx_vreg_off,
 	.pdata = &msm_camera_csi_device_data[0],
 	.flash_data = &flash_s5k3h2yx,
 	.sensor_platform_info = &sensor_s5k3h2yx_board_info,
@@ -975,7 +975,7 @@ static struct msm_camera_sensor_info msm_camera_sensor_s5k3h2yx_data = {
 #endif /* CONFIG_S5K3H2YX */
 
 #ifdef CONFIG_MT9V113
-static int ville_mt9v113_vreg_on(void)
+static int valente_wx_mt9v113_vreg_on(void)
 {
 	int rc;
 
@@ -1007,28 +1007,28 @@ static int ville_mt9v113_vreg_on(void)
 	udelay(50);
 
 	/* IO */
-	rc = gpio_request(VILLE_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
-	pr_info("[CAM] ville_mt9v113_vreg_on %d 1v8\n", VILLE_GPIO_V_LCMIO_1V8_EN);
+	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
+	pr_info("[CAM] valente_wx_mt9v113_vreg_on %d 1v8\n", VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 	if (rc < 0) {
-		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_V_LCMIO_1V8_EN, rc);
+		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_LCMIO_1V8_EN, rc);
 		goto init_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_LCMIO_1V8_EN, 1);
-	gpio_free(VILLE_GPIO_V_LCMIO_1V8_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 1);
+	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 	udelay(50);
 
 	/* enable clock here?? */
 
 	/* Reset */
 #if 0
-	rc = gpio_request(VILLE_GPIO_CAM2_RSTz, "mt9v113");
+	rc = gpio_request(VALENTE_WX_GPIO_CAM2_RSTz, "mt9v113");
 	if (rc < 0) {
-		pr_err("[CAM] %s:VILLE_GPIO_CAM2_RSTz gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_CAM2_RSTz, rc);
+		pr_err("[CAM] %s:VALENTE_WX_GPIO_CAM2_RSTz gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_CAM2_RSTz, rc);
 		goto init_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_CAM2_RSTz, 1);
+	gpio_direction_output(VALENTE_WX_GPIO_CAM2_RSTz, 1);
 	msleep(2);
-	gpio_free(VILLE_GPIO_CAM2_RSTz);
+	gpio_free(VALENTE_WX_GPIO_CAM2_RSTz);
 #endif
 	udelay(50);
 
@@ -1036,35 +1036,35 @@ init_fail:
 	return rc;
 }
 
-static int ville_mt9v113_vreg_off(void)
+static int valente_wx_mt9v113_vreg_off(void)
 {
 	int rc;
 
 	pr_info("[CAM] %s\n", __func__);
 	/* Reset */
 #if 0
-	rc = gpio_request(VILLE_GPIO_CAM2_RSTz, "mt9v113");
+	rc = gpio_request(VALENTE_WX_GPIO_CAM2_RSTz, "mt9v113");
 	if (rc < 0) {
-		pr_err("[CAM] %s:VILLE_GPIO_CAM2_RSTz gpio %d request failed, rc=%d\n", __func__,	VILLE_GPIO_CAM2_RSTz, rc);
+		pr_err("[CAM] %s:VALENTE_WX_GPIO_CAM2_RSTz gpio %d request failed, rc=%d\n", __func__,	VALENTE_WX_GPIO_CAM2_RSTz, rc);
 		goto init_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_CAM2_RSTz, 0);
+	gpio_direction_output(VALENTE_WX_GPIO_CAM2_RSTz, 0);
 	msleep(2);
-	gpio_free(VILLE_GPIO_CAM2_RSTz);
+	gpio_free(VALENTE_WX_GPIO_CAM2_RSTz);
 #endif
 	udelay(50);
 
 	/* disable clock here */
 
 	/* IO */
-	rc = gpio_request(VILLE_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
-	pr_info("[CAM] ville_mt9v113_vreg_off %d 1v8\n", VILLE_GPIO_V_LCMIO_1V8_EN);
+	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
+	pr_info("[CAM] valente_wx_mt9v113_vreg_off %d 1v8\n", VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 	if (rc < 0) {
-		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VILLE_GPIO_V_LCMIO_1V8_EN, rc);
+		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_LCMIO_1V8_EN, rc);
 		goto init_fail;
 	}
-	gpio_direction_output(VILLE_GPIO_V_LCMIO_1V8_EN, 0);
-	gpio_free(VILLE_GPIO_V_LCMIO_1V8_EN);
+	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 0);
+	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 
 	udelay(50);
 
@@ -1103,8 +1103,8 @@ static struct msm_camera_csi_lane_params mt9v113_csi_lane_params = {
 static struct msm_camera_sensor_platform_info sensor_mt9v113_board_info = {
 	.mount_angle = 270,
 	.sensor_reset_enable = 1,
-	.sensor_reset	= VILLE_GPIO_CAM2_RSTz,
-	.sensor_pwd	= VILLE_GPIO_CAM_PWDN,
+	.sensor_reset	= VALENTE_WX_GPIO_CAM2_RSTz,
+	.sensor_pwd	= VALENTE_WX_GPIO_CAM_PWDN,
 	.vcm_pwd	= 0,
 	.vcm_enable	= 1,
 	.csi_lane_params = &mt9v113_csi_lane_params,
@@ -1117,12 +1117,12 @@ static struct msm_camera_sensor_flash_data flash_mt9v113 = {
 static struct msm_camera_sensor_info msm_camera_sensor_mt9v113_data = {
 	.sensor_name = "mt9v113",
 	.sensor_reset_enable = 1,
-	.sensor_reset = VILLE_GPIO_CAM2_RSTz,
-	.sensor_pwd = VILLE_GPIO_CAM_PWDN,
+	.sensor_reset = VALENTE_WX_GPIO_CAM2_RSTz,
+	.sensor_pwd = VALENTE_WX_GPIO_CAM_PWDN,
 	.vcm_pwd = 0,
 	.vcm_enable = 1,
-	.camera_power_on = ville_mt9v113_vreg_on,
-	.camera_power_off = ville_mt9v113_vreg_off,
+	.camera_power_on = valente_wx_mt9v113_vreg_on,
+	.camera_power_off = valente_wx_mt9v113_vreg_off,
 	.pdata = &msm_camera_csi_device_data[1],
 	.flash_data = &flash_mt9v113,
 	.sensor_platform_info = &sensor_mt9v113_board_info,
@@ -1133,7 +1133,7 @@ static struct msm_camera_sensor_info msm_camera_sensor_mt9v113_data = {
 };
 #endif /* CONFIG_MT9V113 */
 
-struct i2c_board_info ville_camera_i2c_boardinfo[] = {
+struct i2c_board_info valente_wx_camera_i2c_boardinfo[] = {
 #ifdef CONFIG_S5K3H2YX
 	{
 		I2C_BOARD_INFO("s5k3h2yx", 0x20 >> 1),
@@ -1148,17 +1148,17 @@ struct i2c_board_info ville_camera_i2c_boardinfo[] = {
 #endif
 };
 
-struct msm_camera_board_info ville_camera_board_info = {
-	.board_info = ville_camera_i2c_boardinfo,
-	.num_i2c_board_info = ARRAY_SIZE(ville_camera_i2c_boardinfo),
+struct msm_camera_board_info valente_wx_camera_board_info = {
+	.board_info = valente_wx_camera_i2c_boardinfo,
+	.num_i2c_board_info = ARRAY_SIZE(valente_wx_camera_i2c_boardinfo),
 };
 #endif /* CONFIG_MSM_CAMERA */
 
-void __init ville_init_camera(void)
+void __init valente_wx_init_camera(void)
 {
 #ifdef CONFIG_MSM_CAMERA
-	msm_gpiomux_install(ville_cam_configs,
-			ARRAY_SIZE(ville_cam_configs));
+	msm_gpiomux_install(valente_wx_cam_configs,
+			ARRAY_SIZE(valente_wx_cam_configs));
 
 	platform_device_register(&msm_rawchip_device);
 	platform_device_register(&msm_camera_server);

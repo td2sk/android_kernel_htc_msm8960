@@ -1,4 +1,4 @@
-/* arch/arm/mach-msm/board-ville-gpio.c
+/* arch/arm/mach-msm/board-valente_wx-gpio.c
  * Copyright (C) 2011 HTC Corporation.
  *
  * This software is licensed under the terms of the GNU General Public
@@ -12,7 +12,7 @@
 */
 
 #include <mach/gpiomux.h>
-#include "board-ville.h"
+#include "board-valente_wx.h"
 
 #if 0  /* GSBI2 is not used for I2C */
 static struct gpiomux_setting gsbi2 = {
@@ -69,121 +69,121 @@ static struct gpiomux_setting slimbus = {
 	.pull = GPIOMUX_PULL_KEEPER,
 };
 
-static struct msm_gpiomux_config ville_gsbi_configs[] __initdata = {
+static struct msm_gpiomux_config valente_wx_gsbi_configs[] __initdata = {
 #if 0 /* GSBI2 is not used for I2C */
 	{
-		.gpio      = VILLE_GPIO_VP_I2C_DAT,	/* GSBI2 I2C QUP SDA */
+		.gpio      = VALENTE_WX_GPIO_VP_I2C_DAT,	/* GSBI2 I2C QUP SDA */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi2,
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_VP_I2C_CLK,	/* GSBI2 I2C QUP SCL */
+		.gpio      = VALENTE_WX_GPIO_VP_I2C_CLK,	/* GSBI2 I2C QUP SCL */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi2,
 		},
 	},
 #endif /* GSBI2 is not used for I2C */
 	{
-		.gpio      = VILLE_GPIO_TP_I2C_DAT,	/* GSBI3 I2C QUP SDA */
+		.gpio      = VALENTE_WX_GPIO_TP_I2C_DAT,	/* GSBI3 I2C QUP SDA */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi3,
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_TP_I2C_CLK,	/* GSBI3 I2C QUP SCL */
+		.gpio      = VALENTE_WX_GPIO_TP_I2C_CLK,	/* GSBI3 I2C QUP SCL */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi3,
 		},
 	},
 #if 0
 	{
-		.gpio      = VILLE_GPIO_CAM_I2C_DAT,	/* GSBI4 I2C QUP SDA */
+		.gpio      = VALENTE_WX_GPIO_CAM_I2C_DAT,	/* GSBI4 I2C QUP SDA */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi4,
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_CAM_I2C_CLK,	/* GSBI4 I2C QUP SCL */
+		.gpio      = VALENTE_WX_GPIO_CAM_I2C_CLK,	/* GSBI4 I2C QUP SCL */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi4,
 		},
 	},
 #endif
 	{
-		.gpio      = VILLE_GPIO_CAP_I2C_DAT,	/* GSBI5 I2C QUP SDA */
+		.gpio      = VALENTE_WX_GPIO_CAP_I2C_DAT,	/* GSBI5 I2C QUP SDA */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi5,
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_CAP_I2C_CLK,	/* GSBI5 I2C QUP SCL */
+		.gpio      = VALENTE_WX_GPIO_CAP_I2C_CLK,	/* GSBI5 I2C QUP SCL */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi5,
 		},
 	},
 #if 0
 	{
-		/* GSBI10 SPI QUP VILLE_GPIO_MCAM_SPI_CLK */
-		.gpio      = VILLE_GPIO_MCAM_SPI_CLK,
+		/* GSBI10 SPI QUP VALENTE_WX_GPIO_MCAM_SPI_CLK */
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_CLK,
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi10,
 		},
 	},
 	{
-		/* GSBI10 SPI QUP VILLE_GPIO_MCAM_SPI_CS0 */
-		.gpio      = VILLE_GPIO_MCAM_SPI_CS0,
+		/* GSBI10 SPI QUP VALENTE_WX_GPIO_MCAM_SPI_CS0 */
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_CS0,
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi10,
 		},
 	},
 	{
-		/* GSBI10 SPI QUP VILLE_GPIO_MCAM_SPI_DI */
-		.gpio      = VILLE_GPIO_MCAM_SPI_DI,
+		/* GSBI10 SPI QUP VALENTE_WX_GPIO_MCAM_SPI_DI */
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_DI,
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi10,
 		},
 	},
 	{
-		/* GSBI10 SPI QUP VILLE_GPIO_MCAM_SPI_DO */
-		.gpio      = VILLE_GPIO_MCAM_SPI_DO,
+		/* GSBI10 SPI QUP VALENTE_WX_GPIO_MCAM_SPI_DO */
+		.gpio      = VALENTE_WX_GPIO_MCAM_SPI_DO,
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi10,
 		},
 	},
 #endif
 	{
-		.gpio      = VILLE_GPIO_SR_I2C_DAT,	/* GSBI12 I2C QUP SDA */
+		.gpio      = VALENTE_WX_GPIO_SR_I2C_DAT,	/* GSBI12 I2C QUP SDA */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi12,
 		},
 	},
 	{
-		.gpio      = VILLE_GPIO_SR_I2C_CLK,	/* GSBI12 I2C QUP SCL */
+		.gpio      = VALENTE_WX_GPIO_SR_I2C_CLK,	/* GSBI12 I2C QUP SCL */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &gsbi12,
 		},
 	},
 };
 
-static struct msm_gpiomux_config ville_slimbus_configs[] __initdata = {
+static struct msm_gpiomux_config valente_wx_slimbus_configs[] __initdata = {
 	{
-		.gpio	= VILLE_GPIO_AUD_WCD_SB_CLK,		/* slimbus data */
+		.gpio	= VALENTE_WX_GPIO_AUD_WCD_SB_CLK,		/* slimbus data */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &slimbus,
 		},
 	},
 	{
-		.gpio	= VILLE_GPIO_AUD_WCD_SB_DATA,		/* slimbus clk */
+		.gpio	= VALENTE_WX_GPIO_AUD_WCD_SB_DATA,		/* slimbus clk */
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &slimbus,
 		},
 	},
 };
 
-static struct msm_gpiomux_config ville_audio_codec_configs[] __initdata = {
+static struct msm_gpiomux_config valente_wx_audio_codec_configs[] __initdata = {
 	{
-		.gpio = VILLE_GPIO_AUD_WCD_MCLK,
+		.gpio = VALENTE_WX_GPIO_AUD_WCD_MCLK,
 		.settings = {
 			[GPIOMUX_SUSPENDED] = &cdc_mclk,
 		},
@@ -203,35 +203,35 @@ static struct gpiomux_setting wcnss_5wire_active_cfg = {
 
 static struct msm_gpiomux_config wcnss_5wire_interface[] = {
 	{
-		.gpio = VILLE_GPIO_WCN_CMD_DATA2,
+		.gpio = VALENTE_WX_GPIO_WCN_CMD_DATA2,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &wcnss_5wire_active_cfg,
 			[GPIOMUX_SUSPENDED] = &wcnss_5wire_suspend_cfg,
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_WCN_CMD_DATA1,
+		.gpio = VALENTE_WX_GPIO_WCN_CMD_DATA1,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &wcnss_5wire_active_cfg,
 			[GPIOMUX_SUSPENDED] = &wcnss_5wire_suspend_cfg,
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_WCN_CMD_DATA0,
+		.gpio = VALENTE_WX_GPIO_WCN_CMD_DATA0,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &wcnss_5wire_active_cfg,
 			[GPIOMUX_SUSPENDED] = &wcnss_5wire_suspend_cfg,
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_WCN_CMD_SET,
+		.gpio = VALENTE_WX_GPIO_WCN_CMD_SET,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &wcnss_5wire_active_cfg,
 			[GPIOMUX_SUSPENDED] = &wcnss_5wire_suspend_cfg,
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_WCN_CMD_CLK,
+		.gpio = VALENTE_WX_GPIO_WCN_CMD_CLK,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &wcnss_5wire_active_cfg,
 			[GPIOMUX_SUSPENDED] = &wcnss_5wire_suspend_cfg,
@@ -253,7 +253,7 @@ static struct gpiomux_setting mdp_vsync_active_cfg = {
 
 static struct msm_gpiomux_config msm8960_mdp_vsync_configs[] __initdata = {
 	{
-		.gpio = VILLE_GPIO_LCD_TE,
+		.gpio = VALENTE_WX_GPIO_LCD_TE,
 		.settings = {
 			[GPIOMUX_ACTIVE] = &mdp_vsync_active_cfg,
 			[GPIOMUX_SUSPENDED] = &mdp_vsync_suspend_cfg,
@@ -275,7 +275,7 @@ static struct gpiomux_setting mhl_i2c_active_cfg = {
 	.pull = GPIOMUX_PULL_NONE,
 };
 
-static struct msm_gpiomux_config ville_mhl_i2c_configs[] __initdata = {
+static struct msm_gpiomux_config valente_wx_mhl_i2c_configs[] __initdata = {
 	{
 		.gpio = 36,
 		.settings = {
@@ -310,16 +310,16 @@ static struct gpiomux_setting mhl_active_2_cfg = {
 	.pull = GPIOMUX_PULL_UP,
 };
 
-static struct msm_gpiomux_config ville_mhl_configs[] __initdata = {
+static struct msm_gpiomux_config valente_wx_mhl_configs[] __initdata = {
 	{
-		.gpio = VILLE_GPIO_MHL_RSTz,
+		.gpio = VALENTE_WX_GPIO_MHL_RSTz,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &mhl_active_1_cfg,
 			[GPIOMUX_SUSPENDED] = &mhl_suspend_cfg,
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_MHL_INT,
+		.gpio = VALENTE_WX_GPIO_MHL_INT,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &mhl_active_2_cfg,
 			[GPIOMUX_SUSPENDED] = &mhl_suspend_cfg,
@@ -346,23 +346,23 @@ static struct gpiomux_setting hdmi_active_2_cfg = {
 	.pull = GPIOMUX_PULL_DOWN,
 };
 
-static struct msm_gpiomux_config ville_hdmi_configs[] __initdata = {
+static struct msm_gpiomux_config valente_wx_hdmi_configs[] __initdata = {
 	{
-		.gpio = VILLE_GPIO_HDMI_DDC_CLK,
+		.gpio = VALENTE_WX_GPIO_HDMI_DDC_CLK,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &hdmi_active_1_cfg,
 			[GPIOMUX_SUSPENDED] = &hdmi_suspend_pd_cfg,
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_HDMI_DDC_DATA,
+		.gpio = VALENTE_WX_GPIO_HDMI_DDC_DATA,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &hdmi_active_1_cfg,
 			[GPIOMUX_SUSPENDED] = &hdmi_suspend_pd_cfg,
 		},
 	},
 	{
-		.gpio = VILLE_GPIO_HDMI_HPD,
+		.gpio = VALENTE_WX_GPIO_HDMI_HPD,
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &hdmi_active_2_cfg,
 			[GPIOMUX_SUSPENDED] = &hdmi_suspend_pd_cfg,
@@ -379,7 +379,7 @@ static struct gpiomux_setting usb_id_cfg = {
 
 static struct msm_gpiomux_config cable_detect_usbid_config[] __initdata = {
 	{
-		.gpio = VILLE_GPIO_USB_ID1,
+		.gpio = VALENTE_WX_GPIO_USB_ID1,
 		.settings = {
 			[GPIOMUX_ACTIVE] = &usb_id_cfg,
 			[GPIOMUX_SUSPENDED] = &usb_id_cfg,
@@ -387,7 +387,7 @@ static struct msm_gpiomux_config cable_detect_usbid_config[] __initdata = {
 	},
 };
 
-int __init ville_gpiomux_init(void)
+int __init valente_wx_gpiomux_init(void)
 {
 	int rc;
 
@@ -397,24 +397,24 @@ int __init ville_gpiomux_init(void)
 		return rc;
 	}
 
-	msm_gpiomux_install(ville_gsbi_configs,
-			ARRAY_SIZE(ville_gsbi_configs));
+	msm_gpiomux_install(valente_wx_gsbi_configs,
+			ARRAY_SIZE(valente_wx_gsbi_configs));
 
-	msm_gpiomux_install(ville_slimbus_configs,
-			ARRAY_SIZE(ville_slimbus_configs));
+	msm_gpiomux_install(valente_wx_slimbus_configs,
+			ARRAY_SIZE(valente_wx_slimbus_configs));
 
-	msm_gpiomux_install(ville_audio_codec_configs,
-			ARRAY_SIZE(ville_audio_codec_configs));
+	msm_gpiomux_install(valente_wx_audio_codec_configs,
+			ARRAY_SIZE(valente_wx_audio_codec_configs));
 
 #ifdef CONFIG_FB_MSM_HDMI_MSM_PANEL
-	msm_gpiomux_install(ville_mhl_i2c_configs,
-			ARRAY_SIZE(ville_mhl_i2c_configs));
+	msm_gpiomux_install(valente_wx_mhl_i2c_configs,
+			ARRAY_SIZE(valente_wx_mhl_i2c_configs));
 
-	msm_gpiomux_install(ville_hdmi_configs,
-			ARRAY_SIZE(ville_hdmi_configs));
+	msm_gpiomux_install(valente_wx_hdmi_configs,
+			ARRAY_SIZE(valente_wx_hdmi_configs));
 
-	msm_gpiomux_install(ville_mhl_configs,
-			ARRAY_SIZE(ville_mhl_configs));
+	msm_gpiomux_install(valente_wx_mhl_configs,
+			ARRAY_SIZE(valente_wx_mhl_configs));
 #endif
 	msm_gpiomux_install(msm8960_mdp_vsync_configs,
 			ARRAY_SIZE(msm8960_mdp_vsync_configs));

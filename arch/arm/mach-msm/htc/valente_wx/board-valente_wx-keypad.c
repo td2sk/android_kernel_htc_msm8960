@@ -1,4 +1,4 @@
-/* arch/arm/mach-msm/board-ville-keypad.c
+/* arch/arm/mach-msm/board-valente_wx-keypad.c
  * Copyright (C) 2010 HTC Corporation.
  *
  * This software is licensed under the terms of the GNU General Public
@@ -23,27 +23,27 @@
 #include <mach/proc_comm.h>
 #include <linux/moduleparam.h>
 #include <linux/mfd/pm8xxx/pm8921.h>
-#include "board-ville.h"
+#include "board-valente_wx.h"
 
 static char *keycaps = "--qwerty";
 #undef MODULE_PARAM_PREFIX
-#define MODULE_PARAM_PREFIX "board_ville."
+#define MODULE_PARAM_PREFIX "board_valente_wx."
 
 module_param_named(keycaps, keycaps, charp, 0);
 /* Direct Keys */
 
-static struct gpio_event_direct_entry ville_keypad_map[] = {
+static struct gpio_event_direct_entry valente_wx_keypad_map[] = {
 	{
-		.gpio = VILLE_GPIO_VOL_DOWNz,
+		.gpio = VALENTE_WX_GPIO_VOL_DOWNz,
 		.code = KEY_VOLUMEDOWN,
 	},
 	{
-		.gpio = VILLE_GPIO_VOL_UPz,
+		.gpio = VALENTE_WX_GPIO_VOL_UPz,
 		.code = KEY_VOLUMEUP,
 	},
 };
 
-static struct gpio_event_input_info ville_keypad_power_info = {
+static struct gpio_event_input_info valente_wx_keypad_power_info = {
 	.info.func = gpio_event_input_func,
 	.flags = GPIOEDF_PRINT_KEYS,
 	.type = EV_KEY,
@@ -52,30 +52,30 @@ static struct gpio_event_input_info ville_keypad_power_info = {
 # else
 	.debounce_time.tv64 = 5 * NSEC_PER_MSEC,
 # endif
-	.keymap = ville_keypad_map,
-	.keymap_size = ARRAY_SIZE(ville_keypad_map),
+	.keymap = valente_wx_keypad_map,
+	.keymap_size = ARRAY_SIZE(valente_wx_keypad_map),
 };
 
-static struct gpio_event_info *ville_keypad_info[] = {
-	&ville_keypad_power_info.info,
+static struct gpio_event_info *valente_wx_keypad_info[] = {
+	&valente_wx_keypad_power_info.info,
 };
 
-static struct gpio_event_platform_data ville_keypad_data = {
+static struct gpio_event_platform_data valente_wx_keypad_data = {
 	.name = "keypad_8960",
-	.info = ville_keypad_info,
-	.info_count = ARRAY_SIZE(ville_keypad_info),
+	.info = valente_wx_keypad_info,
+	.info_count = ARRAY_SIZE(valente_wx_keypad_info),
 };
 
-static struct platform_device ville_keypad_device = {
+static struct platform_device valente_wx_keypad_device = {
 	.name = GPIO_EVENT_DEV_NAME,
 	.id = 0,
 	.dev		= {
-		.platform_data	= &ville_keypad_data,
+		.platform_data	= &valente_wx_keypad_data,
 	},
 };
 
-static struct keyreset_platform_data ville_reset_keys_pdata = {
-	/*.keys_up = ville_reset_keys_up,*/
+static struct keyreset_platform_data valente_wx_reset_keys_pdata = {
+	/*.keys_up = valente_wx_reset_keys_up,*/
 	.keys_down = {
 		KEY_POWER,
 		KEY_VOLUMEDOWN,
@@ -84,16 +84,16 @@ static struct keyreset_platform_data ville_reset_keys_pdata = {
 	},
 };
 
-static struct platform_device ville_reset_keys_device = {
+static struct platform_device valente_wx_reset_keys_device = {
 	.name = KEYRESET_NAME,
-	.dev.platform_data = &ville_reset_keys_pdata,
+	.dev.platform_data = &valente_wx_reset_keys_pdata,
 };
 
-int __init ville_init_keypad(void)
+int __init valente_wx_init_keypad(void)
 {
-	if (platform_device_register(&ville_reset_keys_device))
+	if (platform_device_register(&valente_wx_reset_keys_device))
 		printk(KERN_WARNING "%s: register reset key fail\n", __func__);
 
-	return platform_device_register(&ville_keypad_device);
+	return platform_device_register(&valente_wx_keypad_device);
 }
 

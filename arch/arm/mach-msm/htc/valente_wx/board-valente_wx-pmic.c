@@ -15,9 +15,9 @@
 #include <mach/gpiomux.h>
 #include <mach/restart.h>
 #include "devices.h"
-#include "board-ville.h"
+#include "board-valente_wx.h"
 
-void ville_pm8xxx_adc_device_register(void);
+void valente_wx_pm8xxx_adc_device_register(void);
 
 extern unsigned int system_rev;
 
@@ -99,19 +99,19 @@ struct pm8xxx_mpp_init {
 			PM_GPIO_FUNC_NORMAL, 0, 0)
 /* Initial PM8921 GPIO configurations */
 static struct pm8xxx_gpio_init pm8921_gpios[] __initdata = {
-	PM8XXX_GPIO_INIT(VILLE_PMGPIO_EARPHONE_DETz, PM_GPIO_DIR_IN,
+	PM8XXX_GPIO_INIT(VALENTE_WX_PMGPIO_EARPHONE_DETz, PM_GPIO_DIR_IN,
 			 PM_GPIO_OUT_BUF_CMOS, 0, PM_GPIO_PULL_UP_1P5,
 			 PM_GPIO_VIN_S4, PM_GPIO_STRENGTH_LOW,
 			 PM_GPIO_FUNC_NORMAL, 0, 0),
-	PM8XXX_GPIO_INIT(VILLE_PMGPIO_AUD_REMO_PRESz, PM_GPIO_DIR_IN,
+	PM8XXX_GPIO_INIT(VALENTE_WX_PMGPIO_AUD_REMO_PRESz, PM_GPIO_DIR_IN,
 			 PM_GPIO_OUT_BUF_CMOS, 0, PM_GPIO_PULL_NO,
 			 PM_GPIO_VIN_L17, PM_GPIO_STRENGTH_LOW,
 			 PM_GPIO_FUNC_NORMAL, 0, 0),
-	PM8XXX_GPIO_OUTPUT_VIN_L17_FUNC(VILLE_PMGPIO_CAP_RST, 0),
+	PM8XXX_GPIO_OUTPUT_VIN_L17_FUNC(VALENTE_WX_PMGPIO_CAP_RST, 0),
 };
 
 static struct  pm8xxx_gpio_init pm8921_gpios_cap_rst[] __initdata = {
-	PM8XXX_GPIO_OUTPUT_VIN_S4_FUNC_XC(VILLE_PMGPIO_CAP_RST, 0),
+	PM8XXX_GPIO_OUTPUT_VIN_S4_FUNC_XC(VALENTE_WX_PMGPIO_CAP_RST, 0),
 };
 
 /* Initial PM8921 MPP configurations */
@@ -127,7 +127,7 @@ static struct pm8xxx_mpp_init pm8921_mpps[] __initdata = {
 };
 
 
-void __init ville_pm8921_gpio_mpp_init(void)
+void __init valente_wx_pm8921_gpio_mpp_init(void)
 {
 	int i, rc;
 
@@ -208,7 +208,7 @@ static struct pm8921_charger_platform_data pm8921_chg_pdata __devinitdata = {
 	.warm_bat_chg_current	= 1025,
 	.cool_bat_voltage	= 4200,
 	.warm_bat_voltage	= 4000,
-	.mbat_in_gpio		= VILLE_GPIO_MBAT_IN,
+	.mbat_in_gpio		= VALENTE_WX_GPIO_MBAT_IN,
 	.thermal_mitigation	= pm8921_therm_mitigation,
 	.thermal_levels		= ARRAY_SIZE(pm8921_therm_mitigation),
 	.cold_thr = PM_SMBC_BATT_TEMP_COLD_THR__HIGH,
@@ -251,13 +251,13 @@ static struct pm8xxx_vibrator_platform_data pm8xxx_vib_pdata = {
 };
 
 static struct pm8xxx_gpio_init green_gpios[] = {
-	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VILLE_PMGPIO_GREEN_LED, 1, PM_GPIO_FUNC_2),
-	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VILLE_PMGPIO_GREEN_LED, 1, PM_GPIO_FUNC_NORMAL),
+	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VALENTE_WX_PMGPIO_GREEN_LED, 1, PM_GPIO_FUNC_2),
+	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VALENTE_WX_PMGPIO_GREEN_LED, 1, PM_GPIO_FUNC_NORMAL),
 };
 
 static struct pm8xxx_gpio_init amber_gpios[] = {
-	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VILLE_PMGPIO_AMBER_LED, 1, PM_GPIO_FUNC_2),
-	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VILLE_PMGPIO_AMBER_LED, 1, PM_GPIO_FUNC_NORMAL),
+	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VALENTE_WX_PMGPIO_AMBER_LED, 1, PM_GPIO_FUNC_2),
+	PM8XXX_GPIO_OUTPUT_VIN_BB_FUNC(VALENTE_WX_PMGPIO_AMBER_LED, 1, PM_GPIO_FUNC_NORMAL),
 };
 
 static void green_gpio_config(bool enable)
@@ -371,7 +371,7 @@ static struct pm8xxx_adc_platform_data pm8xxx_adc_pdata = {
 	.adc_num_board_channel		= ARRAY_SIZE(pm8xxx_adc_channels_data),
 	.adc_prop			= &pm8xxx_adc_data,
 	.adc_mpp_base			= PM8921_MPP_PM_TO_SYS(1),
-	.pm8xxx_adc_device_register	= ville_pm8xxx_adc_device_register,
+	.pm8xxx_adc_device_register	= valente_wx_pm8xxx_adc_device_register,
 };
 
 static struct pm8921_platform_data pm8921_platform_data __devinitdata = {
@@ -398,7 +398,7 @@ static struct msm_ssbi_platform_data msm8960_ssbi_pm8921_pdata __devinitdata = {
 	},
 };
 
-void __init ville_init_pmic(void)
+void __init valente_wx_init_pmic(void)
 {
 	pmic_reset_irq = PM8921_IRQ_BASE + PM8921_RESOUT_IRQ;
 
