@@ -10,7 +10,7 @@ int mipi_valente_wx_device_register(struct msm_panel_info *pinfo,
 #define VALENTE_WX_USE_CMDLISTS 1
 
 #define PWM_MIN                   30
-#define PWM_DEFAULT               142
+#define PWM_DEFAULT               160
 #define PWM_MAX                   255
 
 #define BRI_SETTING_MIN                 30
