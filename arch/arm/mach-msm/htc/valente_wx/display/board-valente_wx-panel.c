@@ -336,7 +336,7 @@ static int mipi_dsi_panel_power(int on)
 			return -ENODEV;
 		}
 
-		rc = regulator_set_voltage(v_lcm, 3000000, 3000000);
+		rc = regulator_set_voltage(v_lcm, 2800000, 2800000);
 		if (rc) {
 			printk(KERN_ERR "%s#%d: set_voltage %s failed, rc=%d\n", __func__, __LINE__, lcm_str, rc);
 			return -EINVAL;
