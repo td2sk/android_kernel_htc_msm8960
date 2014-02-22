@@ -28,12 +28,19 @@ static char vle_e0[] = {0xF0, 0x5A, 0x5A}; /* DTYPE_DCS_LWRITE */
 static char vle_e1[] = {0xF1, 0x5A, 0x5A}; /* DTYPE_DCS_LWRITE */
 static char vle_e22[] = {0xFC, 0x5A, 0x5A}; /* DTYPE_DCS_LWRITE */
 static char vle_g0[] = {
-	0xFA, 0x02, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; /* DTYPE_DCS_LWRITE */
+	0xFA, 0x02, 0x55, 0x43,
+	0x58, 0xA9, 0xBC, 0xA4,
+	0xAC, 0xC0, 0xB7, 0xBE,
+	0xC6, 0xBE, 0x91, 0x9B,
+	0x8E, 0xAB, 0xB0, 0xA6,
+	0x00, 0xE4, 0x00, 0xD1, 0x01, 0x04}; /* DTYPE_DCS_LWRITE */
+static char vle_g0_c2[] = {
+	0xFA, 0x02, 0x55, 0x43,
+	0x58, 0xA9, 0xBC, 0xA4,
+	0xAC, 0xC0, 0xB7, 0xBE,
+	0xC6, 0xBE, 0x91, 0x9B,
+	0x8E, 0xAB, 0xB0, 0xA6,
+	0x00, 0xE4, 0x00, 0xD1, 0x01, 0x04}; /* DTYPE_DCS_LWRITE */
 static char vle_g1[] = {0xFA, 0x03}; /* DTYPE_DCS_WRITE1 */
 static char vle_p0[] = {
 	0xF8, 0x27, 0x27, 0x08,
@@ -84,18 +91,17 @@ static struct dsi_cmd_desc samsung_cmd_on_cmds[] = {
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(vle_e15), vle_e15},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e16), vle_e16},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e17), vle_e17},
-	{DTYPE_DCS_WRITE, 1, 0, 0, 0, sizeof(exit_sleep), exit_sleep},
+	{DTYPE_DCS_WRITE, 1, 0, 0, 120, sizeof(exit_sleep), exit_sleep},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(enable_te), enable_te},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(samsung_panel_width), samsung_panel_width},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(samsung_panel_height), samsung_panel_height},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(samsung_panel_vinit), samsung_panel_vinit},
 };
-
 static struct dsi_cmd_desc samsung_cmd_on_cmds_c2[] = {
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e0), vle_e0},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e1), vle_e1},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e22), vle_e22},
-	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_g0), vle_g0},
+	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_g0_c2), vle_g0_c2},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(vle_g1), vle_g1},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_p0), vle_p0},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e2), vle_e2},
@@ -114,13 +120,12 @@ static struct dsi_cmd_desc samsung_cmd_on_cmds_c2[] = {
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(vle_e15), vle_e15},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e16), vle_e16},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(vle_e17_C2), vle_e17_C2},
-	{DTYPE_DCS_WRITE, 1, 0, 0, 0, sizeof(exit_sleep), exit_sleep},
+	{DTYPE_DCS_WRITE, 1, 0, 0, 120, sizeof(exit_sleep), exit_sleep},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(enable_te), enable_te},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(samsung_panel_width), samsung_panel_width},
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 0,  sizeof(samsung_panel_height), samsung_panel_height},
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0,  sizeof(samsung_panel_vinit), samsung_panel_vinit},
 };
-
 
 static struct dsi_cmd_desc samsung_display_off_cmds[] = {
 	{DTYPE_DCS_WRITE, 1, 0, 0, 0,
@@ -129,6 +134,7 @@ static struct dsi_cmd_desc samsung_display_off_cmds[] = {
 		sizeof(enter_sleep), enter_sleep}
 };
 
+#if 0
 /* AUO initial setting command */
 static char enable_page_cmd[6] = {0xF0, 0x55, 0xAA, 0x52, 0x08, 0x00};
 static char enable_page_cmd2[2] = {0xB5, 0x40};
@@ -178,12 +184,13 @@ static struct dsi_cmd_desc auo_display_off_cmds[] = {
 	{DTYPE_DCS_WRITE, 1, 0, 0, 120,
 		sizeof(enter_sleep), enter_sleep}
 };
+#endif
 
-#define AMOLED_NUM_LEVELS 	ARRAY_SIZE(samsung_amoled_gamma_table)
-#define AMOLED_NUM_LEVELS_C2 	ARRAY_SIZE(samsung_amoled_gamma_table_c2)
+#define AMOLED_NUM_LEVELS     ARRAY_SIZE(samsung_amoled_gamma_table)
+#define AMOLED_NUM_LEVELS_C2  ARRAY_SIZE(samsung_amoled_gamma_table_c2)
 
 
-static const char samsung_amoled_gamma_table[][AMOLED_GAMMA_TABLE_SIZE] = {
+static char samsung_amoled_gamma_table[][AMOLED_GAMMA_TABLE_SIZE] = {
 	/* level 10 */
 	{0xFA, 0x02, 0x10, 0x10, 0x10, 0x59, 0x5F, 0x66, 0x81, 0x80,
 		0x7F, 0xD9, 0xC3, 0xD5, 0xCD, 0xA3, 0xC7, 0xDB, 0xD2, 0xDD,
@@ -222,11 +229,11 @@ static const char samsung_amoled_gamma_table[][AMOLED_GAMMA_TABLE_SIZE] = {
 		0x00, 0xB9, 0x00, 0x93, 0x00, 0xD9},
 };
 
-static const char samsung_amoled_gamma_table_c2[][AMOLED_GAMMA_TABLE_SIZE] = {
+static char samsung_amoled_gamma_table_c2[][AMOLED_GAMMA_TABLE_SIZE] = {
 	/* level 10 */
-//	{0xFA, 0x02, 0x55, 0x43, 0x58, 0x5A, 0x5A, 0x5A, 0x80, 0x80,
-//		0x80, 0xBD, 0xC6, 0xBB, 0x96, 0xA6, 0x93, 0xBD, 0xCD, 0xC6,
-//		0x00, 0x4C, 0x00, 0x44, 0x00, 0x57},
+	{0xFA, 0x02, 0x55, 0x43, 0x58, 0x5A, 0x5A, 0x5A, 0x80, 0x80,
+		0x80, 0xBD, 0xC6, 0xBB, 0x96, 0xA6, 0x93, 0xBD, 0xCD, 0xC6,
+		0x00, 0x4C, 0x00, 0x44, 0x00, 0x57},
 	/* level 20 */
 	{0xFA, 0x02, 0x55, 0x43, 0x58, 0x63, 0x63, 0x64, 0xA3, 0xA6,
 		0xA1, 0xB6, 0xC2, 0xB2, 0x97, 0xAA, 0x9C, 0xBD, 0xC8, 0xC0,
@@ -289,7 +296,7 @@ static const char samsung_amoled_gamma_table_c2[][AMOLED_GAMMA_TABLE_SIZE] = {
 		0x00, 0xE4, 0x00, 0xD1, 0x01, 0x04},
 };
 
-static const char black_gamma[AMOLED_GAMMA_TABLE_SIZE] = {
+static char black_gamma[AMOLED_GAMMA_TABLE_SIZE] = {
 	0xFA, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00
@@ -362,10 +369,8 @@ static int mipi_valente_wx_lcd_on(struct platform_device *pdev)
 	switch (panel_type) {
 	case PANEL_ID_VALENTE_SAMSUNG_SG:
 	case PANEL_ID_VALENTE_SAMSUNG_SG_C2:
+	case PANEL_ID_VALENTE_SAMSUNG_SG_C3:
 		valente_wx_send_display_cmds(cmd_on_cmds, cmd_on_cmds_count, false);
-		break;
-	case PANEL_ID_VALENTE_WX_AUO:
-		valente_wx_send_display_cmds(cmd_on_cmds, cmd_on_cmds_count, true);
 		break;
 	default:
 		pr_err("%s: panel_type is not supported!(%d)\n",
@@ -390,6 +395,14 @@ static int mipi_valente_wx_lcd_off(struct platform_device *pdev)
 	if (!mipi_lcd_on)
 		return 0;
 
+
+	/*
+	mipi_dsi_cmds_tx(mfd, &valente_wx_panel_tx_buf, samsung_display_off_cmds,
+	ARRAY_SIZE(samsung_display_off_cmds));
+
+	bl_level_old = 0;
+	*/
+
 	mipi_lcd_on = 0;
 
 	return 0;
@@ -406,8 +419,10 @@ static int mipi_valente_wx_display_on(struct platform_device *pdev)
 	if (mfd->key != MFD_KEY)
 		return -EINVAL;
 
+	/*
 	if (mipi_lcd_on)
 		return 0;
+x	*/
 
 	mipi = &mfd->panel_info.mipi;
 	if (mipi->mode == DSI_VIDEO_MODE) {
@@ -421,9 +436,9 @@ static int mipi_valente_wx_display_on(struct platform_device *pdev)
 		valente_wx_send_display_cmds(display_on_cmds,
 				display_on_cmds_count, false);
 		break;
-	case PANEL_ID_VALENTE_WX_AUO:
+	case PANEL_ID_VALENTE_SAMSUNG_SG_C3:
 		valente_wx_send_display_cmds(display_on_cmds,
-				display_on_cmds_count, true);
+				display_on_cmds_count, false);
 		break;
 	default:
 		pr_err("%s: panel_type is not supported!(%d)\n",
@@ -502,7 +517,6 @@ static unsigned char valente_wx_shrink_pwm_c2(int val)
 	int i;
 	int level, frac, shrink_br = 255;
 	unsigned int prev_gamma, next_gammma, interpolate_gamma;
-
 	if(val == 0) {
 		for (i = 0; i < AMOLED_GAMMA_TABLE_SIZE; ++i) {
 			interpolate_gamma = black_gamma[i];
@@ -526,28 +540,28 @@ static unsigned char valente_wx_shrink_pwm_c2(int val)
 	frac = (shrink_br - AMOLED_MIN_VAL) % AMOLED_LEVEL_STEP_C2;
 
 	for (i = 0; i < AMOLED_GAMMA_TABLE_SIZE - 2; ++i) {
-		if (frac == 0 || level == 14) {
+		if (frac == 0 || level == 15) {
 			interpolate_gamma = samsung_amoled_gamma_table_c2[level][i];
 		} else {
 			prev_gamma = samsung_amoled_gamma_table_c2[level][i];
 			next_gammma = samsung_amoled_gamma_table_c2[level+1][i];
-			interpolate_gamma = (prev_gamma * (AMOLED_LEVEL_STEP_C2 -
+			interpolate_gamma = (prev_gamma * (AMOLED_LEVEL_STEP -
 									frac) + next_gammma * frac) /
-									AMOLED_LEVEL_STEP_C2;
+									AMOLED_LEVEL_STEP;
 		}
 		set_gamma[i] = (char) interpolate_gamma;
 	}
 
 	/* special case for SMD gamma setting  */
-	if(frac == 0 || level == 14) {
+	if(frac == 0 || level == 15) {
 		set_gamma[24] = (char)(samsung_amoled_gamma_table_c2[level][24]);
 		set_gamma[25] = (char)(samsung_amoled_gamma_table_c2[level][25]);
 	} else {
 		prev_gamma = samsung_amoled_gamma_table_c2[level][24] * 256 + samsung_amoled_gamma_table_c2[level][25];
 		next_gammma = samsung_amoled_gamma_table_c2[level+1][24] * 256 + samsung_amoled_gamma_table_c2[level+1][25];
-		interpolate_gamma = (prev_gamma * (AMOLED_LEVEL_STEP_C2 -
+		interpolate_gamma = (prev_gamma * (AMOLED_LEVEL_STEP -
 						frac) + next_gammma * frac) /
-						AMOLED_LEVEL_STEP_C2;
+						AMOLED_LEVEL_STEP;
 		set_gamma[24] = interpolate_gamma / 256;
 		set_gamma[25] = interpolate_gamma % 256;
 	}
@@ -563,11 +577,12 @@ inline void mipi_dsi_set_backlight(struct msm_fb_data_type *mfd, int level)
 
 	switch (panel_type) {
 	case PANEL_ID_VALENTE_SAMSUNG_SG:
+	case PANEL_ID_VALENTE_SAMSUNG_SG_C2:
 		valente_wx_shrink_pwm(mfd->bl_level);
 		valente_wx_send_display_cmds(samsung_cmd_backlight_cmds,
 				ARRAY_SIZE(samsung_cmd_backlight_cmds), true);
 		break;
-	case PANEL_ID_VALENTE_SAMSUNG_SG_C2:
+	case PANEL_ID_VALENTE_SAMSUNG_SG_C3:
 		valente_wx_shrink_pwm_c2(mfd->bl_level);
 		valente_wx_send_display_cmds(samsung_cmd_backlight_cmds,
 				ARRAY_SIZE(samsung_cmd_backlight_cmds), true);
@@ -588,24 +603,17 @@ static int __devinit mipi_valente_wx_lcd_probe(struct platform_device *pdev)
 {
 	switch (panel_type) {
 	case PANEL_ID_VALENTE_SAMSUNG_SG:
+	case PANEL_ID_VALENTE_SAMSUNG_SG_C2:
 		display_off_cmds = samsung_display_off_cmds;
 		display_off_cmds_count = ARRAY_SIZE(samsung_display_off_cmds);
 		cmd_on_cmds = samsung_cmd_on_cmds;
 		cmd_on_cmds_count = ARRAY_SIZE(samsung_cmd_on_cmds);
-		break;
-	case PANEL_ID_VALENTE_SAMSUNG_SG_C2:
+	case PANEL_ID_VALENTE_SAMSUNG_SG_C3:
+	default:
 		display_off_cmds = samsung_display_off_cmds;
 		display_off_cmds_count = ARRAY_SIZE(samsung_display_off_cmds);
 		cmd_on_cmds = samsung_cmd_on_cmds_c2;
 		cmd_on_cmds_count = ARRAY_SIZE(samsung_cmd_on_cmds_c2);
-		break;
-	case PANEL_ID_VALENTE_WX_AUO:
-		display_off_cmds = auo_display_off_cmds;
-		display_off_cmds_count = ARRAY_SIZE(auo_display_off_cmds);
-		cmd_on_cmds = auo_cmd_on_cmds;
-		cmd_on_cmds_count = ARRAY_SIZE(auo_cmd_on_cmds);
-		break;
-	default:
 		break;
 	}
 	display_on_cmds = samsung_display_on_cmds;
@@ -621,6 +629,7 @@ static int __devinit mipi_valente_wx_lcd_probe(struct platform_device *pdev)
 
 static struct platform_driver this_driver = {
 	.probe  = mipi_valente_wx_lcd_probe,
+//	.shutdown = valente_wx_lcd_shutdown,
 	.driver = {
 		.name = "mipi_valente_wx",
 	},
@@ -634,7 +643,7 @@ static struct msm_fb_panel_data valente_wx_panel_data = {
 	.early_off	= mipi_valente_wx_display_off,
 };
 
-static int ch_used[3];
+static char ch_used[3];
 
 int mipi_valente_wx_device_register(struct msm_panel_info *pinfo,
 					u32 channel, u32 panel)
