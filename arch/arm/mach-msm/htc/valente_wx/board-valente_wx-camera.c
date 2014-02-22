@@ -163,7 +163,7 @@ static struct msm_gpiomux_config valente_wx_cam_configs[] = {
 	},
 
 	{
-		.gpio = VALENTE_WX_GPIO_CAM_PWDN,
+		.gpio = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAM_PWDN),
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &cam_settings[9],       /*O(H) 2MA*/
 			[GPIOMUX_SUSPENDED] = &cam_settings[12],  /*O(L) 2MA*/
@@ -787,7 +787,7 @@ static struct msm_camera_sensor_platform_info sensor_s5k3h2yx_board_info = {
 	.mount_angle = 90,
 	.sensor_reset_enable = 0,
 	.sensor_reset	= 0,
-	.sensor_pwd	= VALENTE_WX_GPIO_CAM_PWDN,
+	.sensor_pwd	= PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAM_PWDN),
 	.vcm_pwd	= VALENTE_WX_GPIO_CAM_VCM_PD,
 	.vcm_enable	= 1,
 	.csi_lane_params = &s5k3h2yx_csi_lane_params,
@@ -1104,7 +1104,7 @@ static struct msm_camera_sensor_platform_info sensor_mt9v113_board_info = {
 	.mount_angle = 270,
 	.sensor_reset_enable = 1,
 	.sensor_reset	= VALENTE_WX_GPIO_CAM2_RSTz,
-	.sensor_pwd	= VALENTE_WX_GPIO_CAM_PWDN,
+	.sensor_pwd	= PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAM_PWDN),
 	.vcm_pwd	= 0,
 	.vcm_enable	= 1,
 	.csi_lane_params = &mt9v113_csi_lane_params,
@@ -1118,7 +1118,7 @@ static struct msm_camera_sensor_info msm_camera_sensor_mt9v113_data = {
 	.sensor_name = "mt9v113",
 	.sensor_reset_enable = 1,
 	.sensor_reset = VALENTE_WX_GPIO_CAM2_RSTz,
-	.sensor_pwd = VALENTE_WX_GPIO_CAM_PWDN,
+	.sensor_pwd = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAM_PWDN),
 	.vcm_pwd = 0,
 	.vcm_enable = 1,
 	.camera_power_on = valente_wx_mt9v113_vreg_on,

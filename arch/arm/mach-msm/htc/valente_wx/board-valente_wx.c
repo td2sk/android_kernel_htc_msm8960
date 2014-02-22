@@ -1556,7 +1556,7 @@ int cy8c_cs_reset(void)
 
 struct cy8c_i2c_cs_platform_data cs_cy8c_data[] = {
 	{
-		.gpio_irq = VALENTE_WX_GPIO_CAP_SENSOR_INTz,
+		.gpio_irq = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAP_SENSOR_INTz),
 		.gpio_rst = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAP_RST),
 		.reset    = cy8c_cs_reset,
 		.keycode  = {KEY_BACK, KEY_HOME, KEY_APP_SWITCH},
@@ -1566,7 +1566,7 @@ struct cy8c_i2c_cs_platform_data cs_cy8c_data[] = {
 		},
 	},
 	{
-		.gpio_irq = VALENTE_WX_GPIO_CAP_SENSOR_INTz,
+		.gpio_irq = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAP_SENSOR_INTz),
 		.gpio_rst = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAP_RST),
 		.reset    = cy8c_cs_reset,
 		.keycode  = {KEY_BACK, KEY_HOME, KEY_APP_SWITCH, KEY_WEIBO},
@@ -1581,7 +1581,7 @@ static struct i2c_board_info msm_i2c_gsbi5_info[] = {
 	{
 		I2C_BOARD_INFO(CYPRESS_CS_NAME, 0x40 >> 1),
 		.platform_data = &cs_cy8c_data,
-		.irq = MSM_GPIO_TO_INT(VALENTE_WX_GPIO_CAP_SENSOR_INTz),
+		.irq = MSM_GPIO_TO_INT(PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_CAP_SENSOR_INTz)),
 	},
 };
 

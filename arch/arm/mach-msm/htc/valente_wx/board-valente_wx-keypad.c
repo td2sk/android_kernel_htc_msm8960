@@ -34,11 +34,11 @@ module_param_named(keycaps, keycaps, charp, 0);
 
 static struct gpio_event_direct_entry valente_wx_keypad_map[] = {
 	{
-		.gpio = VALENTE_WX_GPIO_VOL_DOWNz,
+		.gpio = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_VOL_DOWNz),
 		.code = KEY_VOLUMEDOWN,
 	},
 	{
-		.gpio = VALENTE_WX_GPIO_VOL_UPz,
+		.gpio = PM8921_GPIO_PM_TO_SYS(VALENTE_WX_PMGPIO_VOL_UPz),
 		.code = KEY_VOLUMEUP,
 	},
 };
