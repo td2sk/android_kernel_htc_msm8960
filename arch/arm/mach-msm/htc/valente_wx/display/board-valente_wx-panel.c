@@ -299,7 +299,7 @@ static int mipi_dsi_panel_power(int on)
 	static bool bPanelPowerOn = false;
 	int rc;
 
-	char *lcm_str = "8921_l11";
+	char *lcm_str = "8921_l8";
 	char *lcmio_str = "8921_lvs5";
 	char *dsivdd_str = "8921_l2";
         
