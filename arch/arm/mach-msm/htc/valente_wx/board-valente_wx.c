@@ -2628,7 +2628,9 @@ static uint32_t gsbi4_gpio_table_gpio[] = {
 	GPIO_CFG(VALENTE_WX_GPIO_CAM_I2C_CLK, 0, GPIO_CFG_INPUT, GPIO_CFG_NO_PULL, GPIO_CFG_8MA),
 };
 
+
 /* cap sensor*/
+/*
 static uint32_t gsbi5_gpio_table[] = {
 	GPIO_CFG(VALENTE_WX_GPIO_CAP_I2C_DAT, 1, GPIO_CFG_OUTPUT, GPIO_CFG_NO_PULL, GPIO_CFG_8MA),
 	GPIO_CFG(VALENTE_WX_GPIO_CAP_I2C_CLK, 1, GPIO_CFG_OUTPUT, GPIO_CFG_NO_PULL, GPIO_CFG_8MA),
@@ -2638,6 +2640,7 @@ static uint32_t gsbi5_gpio_table_gpio[] = {
 	GPIO_CFG(VALENTE_WX_GPIO_CAP_I2C_DAT, 0, GPIO_CFG_INPUT, GPIO_CFG_NO_PULL, GPIO_CFG_8MA),
 	GPIO_CFG(VALENTE_WX_GPIO_CAP_I2C_CLK, 0, GPIO_CFG_INPUT, GPIO_CFG_NO_PULL, GPIO_CFG_8MA),
 };
+*/
 
 static uint32_t gsbi8_gpio_table[] = {
 	GPIO_CFG(VALENTE_WX_GPIO_MC_I2C_DAT, 1, GPIO_CFG_INPUT, GPIO_CFG_NO_PULL, GPIO_CFG_8MA),
@@ -2684,6 +2687,7 @@ static void gsbi_qup_i2c_gpio_config(int adap_id, int config_type)
 		gpio_tlmm_config(gsbi4_gpio_table_gpio[1], GPIO_CFG_ENABLE);
 	}
 
+  /*
 	if ((adap_id == MSM_8960_GSBI5_QUP_I2C_BUS_ID) && (config_type == 1)) {
 		gpio_tlmm_config(gsbi5_gpio_table[0], GPIO_CFG_ENABLE);
 		gpio_tlmm_config(gsbi5_gpio_table[1], GPIO_CFG_ENABLE);
@@ -2693,6 +2697,7 @@ static void gsbi_qup_i2c_gpio_config(int adap_id, int config_type)
 		gpio_tlmm_config(gsbi5_gpio_table_gpio[0], GPIO_CFG_ENABLE);
 		gpio_tlmm_config(gsbi5_gpio_table_gpio[1], GPIO_CFG_ENABLE);
 	}
+  */
 
 	if ((adap_id == MSM_8960_GSBI8_QUP_I2C_BUS_ID) && (config_type == 1)) {
 		gpio_tlmm_config(gsbi8_gpio_table[0], GPIO_CFG_ENABLE);

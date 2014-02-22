@@ -36,11 +36,13 @@ static struct gpiomux_setting gsbi4 = {
 };
 #endif
 
+#if 0
 static struct gpiomux_setting gsbi5 = {
 	.func = GPIOMUX_FUNC_1,
 	.drv  = GPIOMUX_DRV_8MA,
 	.pull = GPIOMUX_PULL_NONE,
 };
+#endif
 
 #if 0
 /* The SPI configurations apply to GSBI 10*/
@@ -110,6 +112,7 @@ static struct msm_gpiomux_config valente_wx_gsbi_configs[] __initdata = {
 		},
 	},
 #endif
+#if 0
 	{
 		.gpio      = VALENTE_WX_GPIO_CAP_I2C_DAT,	/* GSBI5 I2C QUP SDA */
 		.settings = {
@@ -122,6 +125,7 @@ static struct msm_gpiomux_config valente_wx_gsbi_configs[] __initdata = {
 			[GPIOMUX_SUSPENDED] = &gsbi5,
 		},
 	},
+#endif
 #if 0
 	{
 		/* GSBI10 SPI QUP VALENTE_WX_GPIO_MCAM_SPI_CLK */
