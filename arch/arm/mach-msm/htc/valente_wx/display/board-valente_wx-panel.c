@@ -68,6 +68,7 @@ static struct resource msm_fb_resources[] = {
 };
 
 static struct msm_fb_platform_data msm_fb_pdata = {
+  //.detect_client = msm_fb_detect_panel,
 };
 
 static struct platform_device msm_fb_device = {
