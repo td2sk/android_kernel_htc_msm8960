@@ -1598,6 +1598,7 @@ static void config_gpio_table(uint32_t *table, int len)
 	}
 }
 
+/*
 static uint32_t gyro_DIAG_PIN_pull_down[] = {
 	GPIO_CFG(VALENTE_WX_GPIO_GYRO_DIAG, 0, GPIO_CFG_INPUT, GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA),
 };
@@ -1625,6 +1626,7 @@ static struct pana_gyro_platform_data pana_gyro_pdata = {
 	.sleep_pin = VALENTE_WX_GPIO_PANA_GYRO_SLEEP,
 	.config_gyro_diag_gpios = config_valente_wx_gyro_diag_gpios,
 };
+*/
 
 static struct bma250_platform_data gsensor_bma250_platform_data = {
 	.intr = VALENTE_WX_GPIO_GSENSOR_INT,
@@ -1647,11 +1649,13 @@ static struct i2c_board_info __initdata msm_i2c_sensor_gsbi12_info[] = {
 		.platform_data = &compass_platform_data,
 		.irq = MSM_GPIO_TO_INT(VALENTE_WX_GPIO_COMPASS_INT),
 	},
+  /*
 	{
 		I2C_BOARD_INFO("ewtzmu2", 0xD2 >> 1),
 		.irq = MSM_GPIO_TO_INT(VALENTE_WX_GPIO_GYRO_INT),
 		.platform_data = &pana_gyro_pdata,
 	},
+  */
 };
 
 static struct cm3629_platform_data cm36282_TMO_EN1_pdata = {
