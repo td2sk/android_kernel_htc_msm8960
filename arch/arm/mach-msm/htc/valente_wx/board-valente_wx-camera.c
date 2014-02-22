@@ -468,6 +468,7 @@ static int valente_wx_rawchip_vreg_on(void)
 		goto enable_analog_fail;
 	}
 
+#if 0
 	/* LCMIO */
 	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN"); /* Mu Lee for sequence with raw chip 20120116 */
 	if (rc < 0) {
@@ -476,11 +477,13 @@ static int valente_wx_rawchip_vreg_on(void)
 	}
 	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 1); /* Mu Lee for sequence with raw chip 20120116 */
 	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN); /* Mu Lee for sequence with raw chip 20120116 */
-
+#endif
 	return rc;
 
+#if 0
 lcmio_hi_fail:
 	camera_sensor_power_disable(reg_8921_l9);
+#endif
 enable_analog_fail:
 	gpio_request(VALENTE_WX_GPIO_V_CAM_D1V2_EN, "CAM_D1V2_EN");
 	gpio_direction_output(VALENTE_WX_GPIO_V_CAM_D1V2_EN, 0);
@@ -515,7 +518,7 @@ static int valente_wx_rawchip_vreg_off(void)
 	gpio_free(VALENTE_WX_GPIO_V_CAM_D1V2_EN);
 
 	udelay(50);
-
+#if 0
 	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
 	if (rc < 0) {
 		pr_err("[CAM] %s:GPIO_CAM_D1V8_EN gpio %d request failed, rc=%d\n", __func__,  VALENTE_WX_GPIO_V_LCMIO_1V8_EN, rc);
@@ -525,7 +528,7 @@ static int valente_wx_rawchip_vreg_off(void)
 	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 
 	mdelay(5);
-
+#endif
 	rc = camera_sensor_power_disable(reg_8921_lvs6);
 	if (rc < 0) {
 		pr_err("[CAM] rawchip_power_disable(\"8921_lvs6\", 1.8V) FAILED %d\n", rc);
@@ -1006,6 +1009,7 @@ static int valente_wx_mt9v113_vreg_on(void)
 
 	udelay(50);
 
+#if 0
 	/* IO */
 	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
 	pr_info("[CAM] valente_wx_mt9v113_vreg_on %d 1v8\n", VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
@@ -1016,6 +1020,7 @@ static int valente_wx_mt9v113_vreg_on(void)
 	gpio_direction_output(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, 1);
 	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 	udelay(50);
+#endif
 
 	/* enable clock here?? */
 
@@ -1056,6 +1061,7 @@ static int valente_wx_mt9v113_vreg_off(void)
 
 	/* disable clock here */
 
+#if 0
 	/* IO */
 	rc = gpio_request(VALENTE_WX_GPIO_V_LCMIO_1V8_EN, "CAM_D1V8_EN");
 	pr_info("[CAM] valente_wx_mt9v113_vreg_off %d 1v8\n", VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
@@ -1067,6 +1073,7 @@ static int valente_wx_mt9v113_vreg_off(void)
 	gpio_free(VALENTE_WX_GPIO_V_LCMIO_1V8_EN);
 
 	udelay(50);
+#endif
 
 	/* analog */
 	rc = camera_sensor_power_disable(reg_8921_l9);
